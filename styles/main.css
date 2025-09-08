@@ -1,0 +1,207 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#context-menu {
+  position: absolute;
+  z-index: 30;
+}
+
+#context-menu>input {
+  padding: 5px;
+  width: 200px;
+}
+
+.items {
+  position: absolute;
+  width: 100px;
+  /*border: 1px solid #000;*/
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1px;
+  z-index: 10;
+}
+
+.items>div, .items>input[type="button"] {
+  width: 32px;
+  height: 32px;
+}
+
+.items img {
+  background-color: #333;
+}
+
+.items .location-name {
+  position: absolute;
+  top: -20px;
+  width: max-content;
+}
+
+#select-items {
+  position: absolute;
+  width: 200px;
+  z-index: 20;
+}
+
+#lon-lon-items {
+  left: 580px;
+  top: 280px;
+}
+
+#lake-items {
+  left: 550px;
+  top: 600px;
+}
+
+#field-items {
+  left: 650px;
+  top: 400px;
+}
+
+#water-temple-items {
+  left: 450px;
+  top: 675px;
+}
+
+#gerudo-valley-items {
+  left: 315px;
+  top: 315px;
+}
+
+#gerudo-fortress-items {
+  left: 300px;
+  top: 125px;
+}
+
+#wastelands-items {
+  left: 150px;
+  top: 125px;
+}
+
+#desert-colossus-items {
+  left: 10px;
+  top: 200px;
+}
+
+#spirit-temple-items {
+  left: 10px;
+  top: 25px;
+}
+
+#hyrule-castle-items {
+  left: 600px;
+  top: 25px;
+}
+
+#ganon-castle-items {
+  left: 485px;
+  top: 25px;
+}
+
+#market-items {
+  left: 600px;
+  top: 135px;
+}
+
+#kokiri-forest-items {
+  left: 980px;
+  top: 475px;
+}
+
+#deku-tree-items {
+  left: 1095px;
+  top: 365px;
+}
+
+#lost-woods-items {
+  left: 865px;
+  top: 365px;
+}
+
+#sacred-forest-meadow-items {
+  left: 980px;
+  top: 365px;
+}
+
+#forest-temple-items {
+  left: 980px;
+  top: 255px;
+}
+
+#kakariko-items {
+  left: 750px;
+  top: 265px;
+}
+
+#graveyard-items {
+  left: 865px;
+  top: 135px;
+}
+
+#shadow-temple-items {
+  left: 980px;
+  top: 135px;
+}
+
+#zora-river-items {
+  left: 1095px;
+  top: 255px;
+}
+
+#zora-domain-items {
+  left: 1210px;
+  top: 255px;
+}
+
+#zora-fountain-items {
+  left: 1095px;
+  top: 135px;
+}
+
+#ice-cavern-items {
+  left: 1210px;
+  top: 25px;
+}
+
+#jabu-jabu-items {
+  left: 1210px;
+  top: 135px;
+}
+
+#death-mountain-items {
+  left: 865px;
+  top: 25px;
+}
+
+#death-mountain-crater-items {
+  left: 980px;
+  top: 25px;
+}
+
+#goron-city-items {
+  left: 750px;
+  top: 25px;
+}
+
+#dodongo-cavern-items {
+  left: 750px;
+  top: 135px;
+}
+
+#fire-temple-items {
+  left: 1095px;
+  top: 25px;
+}
