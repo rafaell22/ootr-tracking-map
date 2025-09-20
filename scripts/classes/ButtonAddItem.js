@@ -1,4 +1,5 @@
 import domUtils from '../domUtils.js';
+import Item from './Item.js';
 
 export default class ButtonAddItem {
   constructor(elButton, elItems, selectItems) {
@@ -10,15 +11,14 @@ export default class ButtonAddItem {
       this.selectItems.show(clickEvent.x, clickEvent.y);
       this.selectItems.onselect(((selectEvent) => {
         const src = this.selectItems.value();
-        const item = document.createElement('img');
-        item.src = src;
-        domUtils.addListener.once(item, 'click', () => {
-          item.remove();
-        })
-        this.elItems.appendChild(item);
-        this.selectItems.hide();
-        console.log(selectItems)
         const selectedIndex = this.selectItems.selectedIndex;
+        const itemName = this.selectItems.options[selectedIndex].textContent;
+
+        const item = new Item(src, itemName);
+
+        this.elItems.append(item.el());
+
+        this.selectItems.hide();
         this.selectItems.options[selectedIndex].selected = false;
         this.selectItems.options[0].selected = true;
       }).bind(this));

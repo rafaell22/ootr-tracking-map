@@ -6,7 +6,7 @@
 }
 
 .hidden {
-  display: none;
+  display: none !important;
 }
 
 body {
@@ -17,11 +17,53 @@ body {
 #context-menu {
   position: absolute;
   z-index: 30;
+  padding: 5px;
+  background-color: #ddd;
+  border-radius: 5px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 #context-menu>input {
-  padding: 5px;
   width: 200px;
+}
+
+#context-menu>input[type="button"] {
+  padding: 5px;
+}
+
+#context-menu #colors {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 5px;
+}
+
+#context-menu #color-1 {
+  background-color: #0000ff;
+}
+
+#context-menu #color-2 {
+  background-color: #ff0000;
+}
+
+#context-menu #color-3 {
+  background-color: #00ff00;
+}
+
+#context-menu #color-4 {
+  background-color: #ffff00;
+}
+
+#context-menu .color {
+  width: 32px;
+  height: 32px;
+}
+
+#context-menu .color.selected {
+  border: 2px solid #fff;
 }
 
 .items {
@@ -48,6 +90,13 @@ body {
   position: absolute;
   top: -20px;
   width: max-content;
+}
+
+.items .remove-location {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  background-color: #00000000;
 }
 
 #select-items {
