@@ -1,27 +1,25 @@
 import domUtils from '../domUtils.js';
 import Item from './Item.js';
+import pubSub from './PubSub.js';
+import Point from './Point.js';
 
 export default class ButtonAddItem {
-  constructor(elButton, elItems, selectItems) {
+  constructor(elButton, elItems) {
     this.elButton = elButton;
     this.elItems = elItems;
-    this.selectItems = selectItems;
 
     domUtils.addListener(this.elButton, 'click', ((clickEvent) => {
-      this.selectItems.show(clickEvent.x, clickEvent.y);
-      this.selectItems.onselect(((selectEvent) => {
-        const src = this.selectItems.value();
-        const selectedIndex = this.selectItems.selectedIndex;
-        const itemName = this.selectItems.options[selectedIndex].textContent;
-
+      pubSub.publish('show-select-items', new Point(
+        clickEvent.x, 
+        clickEvent.y,
+      ));
+      const subId = pubSub.subscribe('item-selected', (function(value, description) {
+        const src = value;
+        const itemName = description;
         const item = new Item(src, itemName);
-
         this.elItems.append(item.el());
-
-        this.selectItems.hide();
-        this.selectItems.options[selectedIndex].selected = false;
-        this.selectItems.options[0].selected = true;
-      }).bind(this));
+        pubSub.unsubscribe('item-selected', subId);
+      }).bind(this))
     }).bind(this));
   }
 }

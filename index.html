@@ -10,6 +10,7 @@
 <body>
   <select id="select-items" class="hidden">
     <option value="" disabled selected>--Choose an item--</option>
+    <option value="./assets/dead_32x32.png">Dead</option>
     <option value="./assets/bottle-big-poe_32x32.png">Big Poe Bottle</option>
     <option value="./assets/bombs_32x32.png">Bombs</option>
     <option value="./assets/boomerang_32x32.png">Boomerang</option>
@@ -60,6 +61,8 @@
     <input id="undo" type="button" value="Undo" />
     <input id="foolish" type="button" value="Foolish" />
   </div>
+
+  <div id="hints"></div>
 
   <script src="./scripts/extendObject.js"></script>
   <script src="./scripts/extendCanvasRenderingContext2D.js"></script>

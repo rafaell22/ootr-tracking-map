@@ -1,5 +1,4 @@
 ~~- Add button to remove the location (for foolish hints)~~
-- Add option to add a hint reference to an item (to show in the title)
 - Debug items (some didn't work, some missing)
     - There is some item that showed a broken image in LLR
         - Couldn't replicate...
@@ -19,4 +18,9 @@
 ~~- Improve readability of location names~~
 ~~- Organize/separate location related data to a new file~~
 ~~- When marking as foolish, remove only the items, not the name of the location~~
-- If possible, make the click on the canvas bubble throug the items element
+~~- If possible, make the click on the canvas bubble throug the items element~~
+- Add meds/stones
+~~- Add "always" hints~~
+- Add "sometimes" hints
+- Add "summary" of all acquired items (auto based on the items added to the locations)
+~~- Optimize canvas rendering~~

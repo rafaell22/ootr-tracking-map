@@ -1,10 +1,16 @@
-export default [
+// @ts-check
+import domUtils from '../domUtils.js';
+import ButtonAddItem from '../classes/ButtonAddItem.js';
+import SelectItems from '../classes/SelectItems.js';
+
+const locations = [
   { id: 'lon-lon', name: 'Lon Lon Ranch' },
   { id: 'lake', name: 'Lake' },
   { id: 'field', name: 'Hyrule Field' },
   { id: 'water-temple', name: 'Water' },
   { id: 'gerudo-valley', name: 'Gerudo Valley' },
   { id: 'gerudo-fortress', name: 'Gerudo Fortress' },
+  { id: 'gerudo-training-grounds', name: 'GTG' },
   { id: 'wastelands', name: 'Wastelands' },
   { id: 'desert-colossus', name: 'Desert' },
   { id: 'spirit-temple', name: 'Spirit' },
@@ -17,6 +23,7 @@ export default [
   { id: 'sacred-forest-meadow', name: 'SFM' },
   { id: 'forest-temple', name: 'Forest' },
   { id: 'kakariko', name: 'Kakariko' },
+  { id: 'bottom-of-the-well', name: 'BotWell' },
   { id: 'graveyard', name: 'Graveyard' },
   { id: 'shadow-temple', name: 'Shadow' },
   { id: 'zora-river', name: 'Zora River' },
@@ -30,3 +37,26 @@ export default [
   { id: 'dodongo-cavern', name: 'Dodongo' },
   { id: 'fire-temple', name: 'Fire Temple'},
 ];
+
+export function addLocations() {
+  locations.forEach((location) => {
+    const locationItems = document.createElement('div');
+    locationItems.id = `${location.id}-items`;
+    locationItems.classList.add('items');
+    locationItems.classList.add('pass-click-through');
+    locationItems.innerHTML = `
+      <span class="location-name pass-click-through">
+        <input class="remove-location hidden" value="X" />${location.name}</span>
+      <input id="${location.id}-add-item" type="button" value="+" />
+    `;
+
+    document.querySelector('body').append(locationItems);
+
+    domUtils.addListener(locationItems.querySelector('.remove-location'), 'click', () => {
+      locationItems.innerHTML = `
+        <span class="location-name pass-click-through">${location.name}</span>
+      `;
+    });
+    new ButtonAddItem(domUtils.el(`#${location.id}-add-item`), domUtils.el(`#${location.id}-items`));
+  });
+}

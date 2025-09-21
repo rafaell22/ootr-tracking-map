@@ -1,4 +1,5 @@
 import domUtils from '../domUtils.js';
+import pubSub from './PubSub.js';
 
 export default class Item {
   constructor(src, itemName) {
@@ -22,6 +23,7 @@ export default class Item {
 
   remove() {
     this.img.remove();
+    pubSub.publish(`${this.src.replace('_32x32.png', '')}-item-removed`);
   }
 
   el() {

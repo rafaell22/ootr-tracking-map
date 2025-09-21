@@ -1,6 +1,6 @@
 import { PubSub } from './PubSub.js';
 
-export default class InputManager extends PubSub {
+class InputManager extends PubSub {
   constructor() {
     super();
     document.addEventListener('click', this.publish.bind(this, 'click'));
@@ -10,3 +10,5 @@ export default class InputManager extends PubSub {
     }).bind(this))
   }
 }
+
+export default new InputManager();

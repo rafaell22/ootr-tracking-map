@@ -1,27 +1,48 @@
+// @ts-check
+
 import domUtils from '../domUtils.js';
+import Point from './Point.js';
+import pubSub from './PubSub.js';
 
 export default class SelectItems {
+  /**
+    * @param {HTMLSelectElement} elSelect
+    */
   constructor(elSelect) {
     this.elSelect = elSelect;
+
+    pubSub.subscribe('hide-select-items', this.hide.bind(this));
+    pubSub.subscribe('show-select-items', this.show.bind(this))
+
+    domUtils.addListener(this.elSelect, 'change', this.onSelectItem.bind(this));
   }
 
-  show(x, y) {
+  onSelectItem() {
+    pubSub.publish('item-selected', this.value(), this.description());
+    this.hide();
+    this.options[this.selectedIndex].selected = false;
+    this.options[0].selected = true;
+  }
+
+  /**
+    * @param {Point} point
+    */
+  show(point) {
     domUtils.show(this.elSelect);
-    console.log(this.elSelect)
-    this.elSelect.style.left = `${x}px`;
-    this.elSelect.style.top = `${y}px`;
+    this.elSelect.style.left = `${point.x}px`;
+    this.elSelect.style.top = `${point.y}px`;
   }
 
   hide() {
     domUtils.hide(this.elSelect);
   }
 
-  onselect(cb) {
-    domUtils.addListener.once(this.elSelect, 'change', cb);
-  }
-
   value() {
     return this.elSelect.value;
+  }
+
+  description() {
+    return this.options[this.selectedIndex].textContent;
   }
 
   get selectedIndex() {
