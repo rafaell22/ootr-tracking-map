@@ -44,34 +44,34 @@ export default class Fsm {
     let currentTransition;
     for(let transitionIndex = (this.transitions.length - 1); transitionIndex > -1; transitionIndex--) {
       currentTransition = this.transitions[transitionIndex];
-      this[currentTransition.name] = (function(to, transition) {
+      this[currentTransition.name] = (function(to, transition, ...args) {
         if (this.cannot(transition)) {
           console.log(`State ${this.state} cannot ${transition}!`);
           return;
         }
         console.log(`Transitioning from ${this.state} to ${to}`);
         if (this.actions['onBefore' + transition[0].toUpperCase() + transition.slice(1)]) {
-          this.actions['onBefore' + transition[0].toUpperCase() + transition.slice(1)].call(this);
+          this.actions['onBefore' + transition[0].toUpperCase() + transition.slice(1)].call(this, ...args);
         }
 
         if (
           this.state
           && this.actions['onLeave' + this.state[0].toUpperCase() + this.state.slice(1)]
         ) {
-          this.actions['onLeave' + this.state[0].toUpperCase() + this.state.slice(1)].call(this);
+          this.actions['onLeave' + this.state[0].toUpperCase() + this.state.slice(1)].call(this, ...args);
         }
 
         if (this.actions['on' + transition[0].toUpperCase() + transition.slice(1)]) {
-          this.actions['on' + transition[0].toUpperCase() + transition.slice(1)].call(this);
+          this.actions['on' + transition[0].toUpperCase() + transition.slice(1)].call(this, ...args);
         }
         this.state = to;
 
         if (this.actions['onEnter' + to[0].toUpperCase() + to.slice(1)]) {
-          this.actions['onEnter' + to[0].toUpperCase() + to.slice(1)].call(this);
+          this.actions['onEnter' + to[0].toUpperCase() + to.slice(1)].call(this, ...args);
         }
 
         if (this.actions['onAfter' + transition[0].toUpperCase() + transition.slice(1)]) {
-          this.actions['onAfter' + transition[0].toUpperCase() + transition.slice(1)].call(this);
+          this.actions['onAfter' + transition[0].toUpperCase() + transition.slice(1)].call(this, ...args);
         }
       }).bind(this, currentTransition.to, currentTransition.name);
 

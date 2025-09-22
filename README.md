@@ -6,7 +6,7 @@
     ~~- Strenght2 bw is broken~~
     ~~- Sun's Song is at the wrong place~~
     - Missing
-        - Slingshot
+        ~~- Slingshot~~
         ~~- kokiri sword~~
         ~~- zora Tunic~~
         ~~- letter~~ 
@@ -19,8 +19,9 @@
 ~~- Organize/separate location related data to a new file~~
 ~~- When marking as foolish, remove only the items, not the name of the location~~
 ~~- If possible, make the click on the canvas bubble throug the items element~~
-- Add meds/stones
+~~- Add meds/stones~~
 ~~- Add "always" hints~~
 - Add "sometimes" hints
 - Add "summary" of all acquired items (auto based on the items added to the locations)
 ~~- Optimize canvas rendering~~
+- Remove items from select/options after they are added to a location. Add them back when they are removed

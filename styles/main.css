@@ -103,7 +103,7 @@ body {
   cursor: pointer;
 }
 
-#select-items {
+#select-items, #select-med-location {
   position: absolute;
   width: 200px;
   z-index: 20;
@@ -272,11 +272,15 @@ body {
 #hints {
   position: absolute;
   z-index: 10;
-  top: 415px;
+  top: 375px;
   left: 15px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  background-color: #888;
+  padding: 5px;
+  border: 1px solid #333;
+  width: 130px;
 }
 
 #hints .hint-container {
@@ -288,4 +292,38 @@ body {
 #hints input[type="button"] {
   width: 32px;
   height: 32px;
+}
+
+#meds {
+  position: absolute;
+  top: 650px;
+  left: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 130px;
+  z-index: 10;
+  background-color: #888;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #333;
+}
+
+#meds img {
+  width: 32px;
+  height: 32px;
+}
+
+#meds span {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: bolder;
+}
+
+#meds>div {
+  position: relative;
 }

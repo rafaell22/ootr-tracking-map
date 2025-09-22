@@ -51,6 +51,19 @@
     <option value="./assets/zeldas-lullaby_32x32.png">Zelda's Lullaby</option>
   </select>
 
+  <select id="select-med-location" class="hidden">
+    <option value="" disabled selected>--Choose a location--</option>
+    <option value="link">Link's Pocket</option>
+    <option value="deku">Deku Tree</option>
+    <option value="dc">Dodongo Cavern</option>
+    <option value="jabu">Jabu Jabu</option>
+    <option value="forest">Forest Temple</option>
+    <option value="fire">Fire Temple</option>
+    <option value="water">Water Temple</option>
+    <option value="shadow">Shadow Temple</option>
+    <option value="spirit">Spirit Temple</option>
+  </select>
+
   <div id="context-menu" class="hidden">
     <div id="colors">
       <div id="color-1" class="color selected" style="background-color: #0000ff;"></div>
@@ -63,6 +76,8 @@
   </div>
 
   <div id="hints"></div>
+
+  <div id="meds"></div>
 
   <script src="./scripts/extendObject.js"></script>
   <script src="./scripts/extendCanvasRenderingContext2D.js"></script>

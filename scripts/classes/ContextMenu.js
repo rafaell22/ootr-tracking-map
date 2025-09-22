@@ -10,6 +10,10 @@ export default class ContextMenu {
   constructor(contextMenuEl) {
     this.el = contextMenuEl;
     inputManager.subscribe('contextmenu', (function(clickEvent) {
+      if(clickEvent.target.tagName !== 'CANVAS') {
+        return;
+      }
+
       domUtils.toggle(this.el);
       pubSub.publish('hide-select-items');
       this.el.style.left = `${clickEvent.x}px`;

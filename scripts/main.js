@@ -7,10 +7,12 @@ import Point from './classes/Point.js';
 import Line from './classes/Line.js';
 import Rect from './classes/Rect.js';
 import ContextMenu from './classes/ContextMenu.js';
+import pubSub from './classes/PubSub.js';
 
 import { addLocations } from './data/locations.js';
-import pubSub from './classes/PubSub.js';
-import {addHints} from './data/alwaysHints.js';
+import { addHints } from './data/alwaysHints.js';
+import { addMeds } from './data/meds.js';
+import SelectMedLocation from './classes/SelectMedLocation.js';
 
 const game = new Game({});
 
@@ -70,6 +72,8 @@ pubSub.subscribe('remove-line', () => {
 });
 
 new SelectItems(domUtils.el('#select-items'));
+new SelectMedLocation(domUtils.el('#select-med-location'));
 new ContextMenu(domUtils.el('#context-menu'));
 addLocations();
 addHints();
+addMeds();
