@@ -9,6 +9,7 @@ export default class ButtonAddItem {
     this.elItems = elItems;
 
     domUtils.addListener(this.elButton, 'click', ((clickEvent) => {
+      pubSub.unsubscribeAll('item-selected');
       pubSub.publish('show-select-items', new Point(
         clickEvent.x, 
         clickEvent.y,

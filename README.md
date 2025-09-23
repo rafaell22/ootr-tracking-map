@@ -25,3 +25,4 @@
 - Add "summary" of all acquired items (auto based on the items added to the locations)
 ~~- Optimize canvas rendering~~
 - Remove items from select/options after they are added to a location. Add them back when they are removed
+- Bug: when the user clicks the + button, then right click and then goes to add an item to another location, the item is added to the previous

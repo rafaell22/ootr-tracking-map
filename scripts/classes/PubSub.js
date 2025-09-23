@@ -48,6 +48,13 @@ export class PubSub {
         this.events[event].splice(eventIndex, 1);
     }
   }
+
+  /**
+    * @param {string} event
+    */
+  unsubscribeAll(event) {
+    this.events[event] = [];
+  }
 }
 
 export default new PubSub();
