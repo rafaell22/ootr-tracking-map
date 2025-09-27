@@ -12,7 +12,9 @@ import pubSub from './classes/PubSub.js';
 import { addLocations } from './data/locations.js';
 import { addHints } from './data/alwaysHints.js';
 import { addMeds } from './data/meds.js';
+import { addSongs } from './data/songs.js';
 import SelectMedLocation from './classes/SelectMedLocation.js';
+import {addSometimesHints} from './data/sometimesHints.js';
 
 const game = new Game({});
 
@@ -77,3 +79,83 @@ new ContextMenu(domUtils.el('#context-menu'));
 addLocations();
 addHints();
 addMeds();
+addSongs();
+addSometimesHints();
+
+
+// ===============================================
+let spoilerLog;
+const loadSpoilerLog = document.querySelector('#load-spoiler-log');
+domUtils.addListener(loadSpoilerLog, 'change', (event) => {
+  const file = event.target.files[0];
+
+  if(!file) {
+    // handle file not selected
+    return;
+  }
+
+  console.log(file.type);
+  if(file.type !== 'application/json') {
+    // handle wrong file type
+  }
+  console.log(event);
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    spoilerLog = JSON.parse(reader.result);
+    console.log(spoilerLog)
+  };
+  reader.onerror = (e) => {
+    console.log('Error reading file')
+    console.log(e)
+  };
+  reader.readAsText(file);
+});
+
+const bosses = [
+  'Barinade',
+  'Morpha',
+  'Phantom Ganon',
+  'Queen Gohma',
+  'Twinrova',
+  'Volvagia'
+]
+const dungeons = [
+  'Deku Tree',
+  'Dodongos Cavern',
+  'Fire Temple',
+  'Forest Temple',
+  'Jabu Jabus Belly',
+  'Shadow Temple',
+  'Spirit Temple',
+  'Water Temple',
+]
+const spoilerLocations = [
+  'Bottom of the Well',
+  'Colossus',
+  'DMC',
+  'DMT',
+  'Deku Theater',
+  'GC',
+  'GF',
+  'GV',
+  'Ganons Castle',
+  'Gerudo Training Grounds',
+  'Graveyard',
+  'HC',
+  'HF',
+  'Ice Cavern',
+  'KF',
+  'Kak',
+  'LH',
+  'LLR',
+  'LW',
+  'Market',
+  'OGC',
+  'SFM',
+  'ToT',
+  'Wasteland',
+  'ZD',
+  'ZF',
+  'ZR'
+];

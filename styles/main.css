@@ -269,17 +269,18 @@ body {
   top: 255px;
 }
 
+#fire-temple-items, #forest-temple-items, #water-temple-items, #shadow-temple-items, #spirit-temple-items, #deku-tree-items, #dodongo-cavern-items, #jabu-jabu-items {
+  border: 1px solid red;
+  border-radius: 5px;
+  background-color: #888;
+}
+
 #hints {
-  position: absolute;
   z-index: 10;
-  top: 375px;
-  left: 15px;
-  display: flex;
+  top: 15px;
+  left: 1345px;
   flex-direction: column;
   gap: 10px;
-  background-color: #888;
-  padding: 5px;
-  border: 1px solid #333;
   width: 130px;
 }
 
@@ -295,18 +296,11 @@ body {
 }
 
 #meds {
-  position: absolute;
-  top: 650px;
-  left: 15px;
-  display: flex;
+  top: 280px;
+  left: 1345px;
   gap: 10px;
   flex-wrap: wrap;
   max-width: 130px;
-  z-index: 10;
-  background-color: #888;
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #333;
 }
 
 #meds img {
@@ -326,4 +320,84 @@ body {
 
 #meds>div {
   position: relative;
+}
+
+#training-mode {
+  position: absolute;
+  left: 1400px;
+  top: 50px;
+  z-index: 10;
+}
+
+#songs {
+  top: 328px;
+  left: 1485px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 254px;
+  background-color: #888;
+  border: 1px solid #333;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#songs>img {
+  width: 32px;
+  height: 32px;
+}
+
+#sometimes-hints {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 5px;
+  width: 254px;
+  left: 1485px;
+  top: 15px;
+}
+
+#sometimes-hints>div {
+  display: flex;
+  gap: 5px;
+}
+
+#sometimes-hints input[type="text"] {
+  flex-grow: 1;
+  width: 100px;
+}
+
+#sometimes-hints input[type="button"] {
+  width: 32px;
+  height: 32px;
+}
+
+.tracker-containers {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  background-color: #888;
+  border: 1px solid #333;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#spawn {
+  left: 1345px;
+  top: 430px;
+  flex-direction: column;
+  width: 395px;
+  gap: 5px;
+}
+
+#spawn div {
+  display: flex;
+}
+
+#spawn label {
+  width: 55px;
+  line-height: 32px;
+}
+
+#spawn input {
+  flex-grow: 1;
 }

@@ -75,9 +75,29 @@
     <input id="foolish" type="button" value="Foolish" />
   </div>
 
-  <div id="hints"></div>
+  <div id="hints" class="tracker-containers"></div>
 
-  <div id="meds"></div>
+  <div id="meds" class="tracker-containers"></div>
+
+  <div id="songs" class="tracker-containers"></div>
+
+  <div id="sometimes-hints" class="tracker-containers"></div>
+
+  <div id="spawn" class="tracker-containers">
+    <div>
+      <label>Child</label>
+      <input type="text" />
+    </div>
+    <div>
+      <label>Adult</label>
+      <input type="text" />
+    </div>
+  </div>
+
+  <div id="training-mode" class="hidden">
+    <label for="load-spoiler-log">Select Spoiler Log</label>
+    <input type="file" name="load-spoiler-log" id="load-spoiler-log" />
+  </div>
 
   <script src="./scripts/extendObject.js"></script>
   <script src="./scripts/extendCanvasRenderingContext2D.js"></script>

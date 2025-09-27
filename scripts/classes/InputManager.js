@@ -4,7 +4,9 @@ class InputManager extends PubSub {
   constructor() {
     super();
     document.addEventListener('click', (function(event) {
-      event.preventDefault();
+      if(event.target.tagName !== 'INPUT' && event.target.type !== 'file') {
+        event.preventDefault();
+      }
       this.publish('click', event);
     }).bind(this));
     document.addEventListener('contextmenu', (function(event) {

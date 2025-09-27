@@ -19,6 +19,7 @@ export default class SelectItems {
 
   onSelectItem() {
     pubSub.publish('item-selected', this.value(), this.description());
+    pubSub.publish('song-selected', this.value());
     this.hide();
     this.options[this.selectedIndex].selected = false;
     this.options[0].selected = true;

@@ -17,6 +17,7 @@ export default class Item {
   }
 
   addImg() {
+    pubSub.publish('item-acquired', this.src.replace(/^.*\//,''), this.name);
     this.img.src = this.src;
     domUtils.addListener(this.img, 'click', this.remove.bind(this));
   }
@@ -24,6 +25,7 @@ export default class Item {
   remove() {
     this.img.remove();
     pubSub.publish(`${this.src.replace('_32x32.png', '')}-item-removed`);
+    pubSub.publish('item-removed', this.src.replace(/^.*\//,''), this.name);
   }
 
   el() {
