@@ -77,3 +77,6 @@
 - Remove items from select/options after they are added to a location. Add them back when they are removed
 
 ~~- Bug: when the user clicks the + button, then right click and then goes to add an item to another location, the item is added to the previous~~
+
+- Make the spawn location a dropdown. When you select it, add a small link icon (child or adult) to the side of the name of the location;
+
