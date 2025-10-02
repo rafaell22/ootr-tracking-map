@@ -52,7 +52,7 @@
       
         ~~- ZL~~
 
-        - Blue fire arrows
+        ~~- Blue fire arrows ~~
       
 ~~- dismiss select element by clicking button? Maybe dismiss the select by right clicking on the screen~~
 
@@ -80,3 +80,4 @@
 
 - Make the spawn location a dropdown. When you select it, add a small link icon (child or adult) to the side of the name of the location;
 
+~~- Add question mark item to items select box to mark there is an unknown key item (golden chest)~~
