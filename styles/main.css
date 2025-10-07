@@ -95,6 +95,12 @@ body {
   font-weight: bolder;
 }
 
+.items .location-name.foolish {
+  text-decoration: line-through;
+  text-decoration-color: red;
+  color: red;
+}
+
 .items .remove-location {
   width: 16px;
   height: 16px;
@@ -316,6 +322,7 @@ body {
   font-size: 9px;
   text-transform: uppercase;
   font-weight: bolder;
+  color: white;
 }
 
 #meds>div {

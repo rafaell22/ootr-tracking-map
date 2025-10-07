@@ -81,3 +81,13 @@
 - Make the spawn location a dropdown. When you select it, add a small link icon (child or adult) to the side of the name of the location;
 
 ~~- Add question mark item to items select box to mark there is an unknown key item (golden chest)~~
+
+- BUG: Click to add item to one of the sometimes hint (one with two rewards) and then before selecting the item, then click to select the item for the other reward. It messes up the hints and start adding new buttons to all of them
+
+- link always hints and locations
+
+- Separate all pubSub event payloads in specific classes (try to find a place to find all available events)
+
+- Update pubsub to handle "once" function
+
+- Think about updating event handling in buttons to check for id instead of subscribing every time they are clicked

@@ -54,7 +54,7 @@ export function addLocations() {
 
     domUtils.addListener(locationItems.querySelector('.remove-location'), 'click', () => {
       locationItems.innerHTML = `
-        <span class="location-name pass-click-through">${location.name}</span>
+        <span class="location-name foolish pass-click-through">${location.name}</span>
       `;
     });
     new ButtonAddItem(domUtils.el(`#${location.id}-add-item`), domUtils.el(`#${location.id}-items`));
