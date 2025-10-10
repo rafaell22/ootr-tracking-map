@@ -2,35 +2,54 @@ import domUtils from '../domUtils.js';
 import Item from './Item.js';
 import pubSub from './PubSub.js';
 import Point from './Point.js';
+import inputManager from './InputManager.js';
 
 export default class ButtonAddHint {
-  constructor(elButton, location) {
+  constructor(elButton, locationId) {
+    this.id = crypto.randomUUID();
     this.elButton = elButton;
-    this.location = location;
+    this.locationId = locationId;
     this.itemId = null;
 
     domUtils.addListener(this.elButton, 'click', (function(clickEvent) {
-      pubSub.unsubscribeAll('item-selected');
-      pubSub.publish('show-select-items', new Point(
+      pubSub.publish('show-select-items', this.id, new Point(
         clickEvent.x, 
         clickEvent.y,
       ));
-
-      const subIdSelect = pubSub.subscribe('item-selected', (function(value, description) {
-        const src = value;
-        const itemName = description;
-        const item = new Item(src, itemName);
-        this.elButton.after(item.el());
-        this.itemId = src.replace('_32x32.png', '');
-        this.hide();
-        pubSub.unsubscribe('item-selected', subIdSelect);
-        const subId = pubSub.subscribe(`${src.replace('_32x32.png', '')}-item-removed`, (function() {
-          this.show();
-          this.itemId = null;
-          pubSub.unsubscribe(`${src.replace('_32x32.png', '')}-item-removed`, subId);
-        }).bind(this));
-      }).bind(this))
     }).bind(this));
+
+    inputManager.subscribe('contextmenu', (function(clickEvent) {
+      if(clickEvent.target !== this.elButton) {
+        return;
+      }
+
+      this.addItem.call(this, 'dead', 'Dead');
+    }).bind(this))
+
+
+    pubSub.subscribe('item-selected', (function(id, itemId, itemName) {
+      if(id !== this.id) {
+        return;
+      }
+
+      this.addItem.call(this, itemId, itemName)
+
+    }).bind(this))
+  }
+
+  addItem(itemId, itemName) {
+    const item = new Item(itemId, itemName, this.locationId);
+    this.elButton.after(item.el());
+    this.itemId = itemId;
+    this.hide();
+    pubSub.subscribe(`${this.itemId}-item-removed`, (function(locationId) {
+      if(locationId !== this.locationId) {
+        return;
+      }
+
+      this.show();
+      this.itemId = null;
+    }).bind(this), true);
   }
 
   hide() {

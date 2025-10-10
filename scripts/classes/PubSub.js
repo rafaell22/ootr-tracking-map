@@ -10,16 +10,24 @@ export class PubSub {
    * Subscribe to an event. If the event doesn't exist yet, create one.
    * @param  {string}   event                  Event name to subscribe to
    * @param  {function} callback               Function that will be executed when the event is published
+   * @param  {boolean} [once]                  If the callback should be called only once and then unsubscribe
    * @return {string}                          Unique identification of a subscription. Can be used to unsubscribe specific listeners
    */
-  subscribe(event, callback) {
+  subscribe(event, callback, once) {
     if(!this.events[event]) {
         this.events[event] = [];
     }
     const id = this.events[event].length + (new Date()).toISOString();
+    let eventCallback = callback;
+    if(once) {
+      eventCallback = (function(event, id, ...args) {
+        callback(...args);
+        this.unsubscribe(event, id);
+      }).bind(this, event, id)
+    }
     this.events[event].push({
         id: id,
-        callback: callback
+        callback: eventCallback
     });
 
     return id;

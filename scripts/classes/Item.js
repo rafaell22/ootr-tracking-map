@@ -2,9 +2,10 @@ import domUtils from '../domUtils.js';
 import pubSub from './PubSub.js';
 
 export default class Item {
-  constructor(src, itemName) {
-    this.src = src;
+  constructor(itemId, itemName, locationId) {
+    this.itemId = itemId;
     this.name = itemName;
+    this.locationId = locationId;
     this.img = document.createElement('img');
     this.img.title = this.name;
 
@@ -12,20 +13,20 @@ export default class Item {
   }
 
   addGreyedOutImg() {
-    this.img.src = this.src.replace('_32x32.png', '-bw_32x32.png');
+    this.img.src = `assets/${this.itemId}-bw_32x32.png`;
     domUtils.addListener.once(this.img, 'click', this.addImg.bind(this));
   }
 
   addImg() {
-    pubSub.publish('item-acquired', this.src.replace(/^.*\//,''), this.name);
-    this.img.src = this.src;
+    pubSub.publish('item-acquired', this.itemId, this.name, this.locationId);
+    this.img.src = `assets/${this.itemId}_32x32.png`;
     domUtils.addListener(this.img, 'click', this.remove.bind(this));
   }
 
   remove() {
     this.img.remove();
-    pubSub.publish(`${this.src.replace('_32x32.png', '')}-item-removed`);
-    pubSub.publish('item-removed', this.src.replace(/^.*\//,''), this.name);
+    pubSub.publish(`${this.itemId}-item-removed`, this.locationId);
+    pubSub.publish('item-removed', this.itemId, this.name, this.locationId);
   }
 
   el() {

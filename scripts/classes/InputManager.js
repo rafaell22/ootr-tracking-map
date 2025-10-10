@@ -13,6 +13,7 @@ class InputManager extends PubSub {
       event.preventDefault();
       this.publish('contextmenu', event);
     }).bind(this))
+
   }
 }
 

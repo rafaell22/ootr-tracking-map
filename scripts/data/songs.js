@@ -55,7 +55,7 @@ const songs = [
 export function addSongs() {
   const songsContainer = domUtils.el('#songs');
   songs.forEach((songData) => {
-    const song = new Song(`../../assets/${songData.id}_32x32.png`, songData.name);
+    const song = new Song(songData.id, songData.name);
     song.appendTo(songsContainer);
   });
 }

@@ -1,11 +1,22 @@
 import domUtils from '../domUtils.js';
 import Fsm from './Fsm.js';
-import Point from './Point.js';
-import pubSub from './PubSub.js';
 import inputManager from './InputManager.js';
 
+const medLocations = [
+  'jabu',
+  'dc',
+  'deku',
+  'pocket',
+  '',
+  'forest',
+  'fire',
+  'water',
+  'shadow',
+  'spirit'
+];
+
 export default class Med extends Fsm {
-  constructor(src, name) {
+  constructor(medId, name) {
     super([
       { name: 'addMed', from: ['notAcquired', 'acquirable'], to: 'acquired' },
       { name: 'removeMed', from: 'acquired', to: 'notAcquired' },
@@ -22,7 +33,8 @@ export default class Med extends Fsm {
       }).bind(this),
       onMarkCompletable: this.addBorder.bind(this),
     };
-    this.src = src;
+    this.medLocationIndex = 4;
+    this.medId = medId;
     this.name = name;
     this.img = document.createElement('img');
     this.img.title = this.name;
@@ -33,22 +45,10 @@ export default class Med extends Fsm {
 
     this.addGreyedOutImg();
 
-    inputManager.subscribe('contextmenu', (function(clickEvent) {
-      if(clickEvent.target !== this.img) {
-        return;
-      }
-      pubSub.publish('show-select-med-location', new Point(
-        clickEvent.x, 
-        clickEvent.y,
-      ));
-      const subId = pubSub.subscribe('med-location-selected', (function(value, description) {
-        this.location.textContent = value;
-        pubSub.publish('hide-select-med-location')
-        pubSub.unsubscribe('med-location-selected', subId);
-      }).bind(this))
-    }).bind(this));
-
     this.addMedListenerId = inputManager.subscribe('click', this.onClick.bind(this));
+
+
+    this.img.addEventListener('wheel', this.changeMedLocation.bind(this))
   }
 
   onClick(clickEvent) {
@@ -68,13 +68,27 @@ export default class Med extends Fsm {
     }
   }
 
+  changeMedLocation(event) {
+    event.preventDefault();
+
+    if(event.deltaY > 0) {
+      if(this.medLocationIndex < (medLocations.length - 1)){
+        this.medLocationIndex += 1;
+      }
+    } else if(this.medLocationIndex > 0) {
+      this.medLocationIndex -= 1;
+    }
+
+    this.location.textContent = medLocations[this.medLocationIndex];
+  }
+
   addGreyedOutImg() {
-    this.img.src = this.src.replace('_32x32.png', '-bw_32x32.png');
+    this.img.src = `assets/${this.medId}-bw_32x32.png`;
     domUtils.addListener.once(this.img, 'click', this.addImg.bind(this));
   }
 
   addImg() {
-    this.img.src = this.src;
+    this.img.src = `assets/${this.medId}_32x32.png`;
     domUtils.addListener(this.img, 'oncontextmenu ', this.addGreyedOutImg.bind(this));
   }
 

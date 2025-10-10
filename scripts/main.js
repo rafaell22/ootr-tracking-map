@@ -13,7 +13,6 @@ import { addLocations } from './data/locations.js';
 import { addHints } from './data/alwaysHints.js';
 import { addMeds } from './data/meds.js';
 import { addSongs } from './data/songs.js';
-import SelectMedLocation from './classes/SelectMedLocation.js';
 import {addSometimesHints} from './data/sometimesHints.js';
 
 const game = new Game({});
@@ -65,6 +64,10 @@ inputManager.subscribe('click', function(clickEvent) {
   }
 });
 
+pubSub.subscribe('show-select-items', () => {
+  point1 = null;
+})
+
 pubSub.subscribe('set-line-color', (color) => {
   lineColor = color;
 });
@@ -74,7 +77,6 @@ pubSub.subscribe('remove-line', () => {
 });
 
 new SelectItems(domUtils.el('#select-items'));
-new SelectMedLocation(domUtils.el('#select-med-location'));
 new ContextMenu(domUtils.el('#context-menu'));
 addLocations();
 addHints();

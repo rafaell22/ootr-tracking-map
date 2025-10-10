@@ -39,6 +39,9 @@ const locations = [
 ];
 
 export function addLocations() {
+  const locationList = document.createElement('datalist');
+  locationList.id = 'location-list';
+
   locations.forEach((location) => {
     const locationItems = document.createElement('div');
     locationItems.id = `${location.id}-items`;
@@ -50,6 +53,10 @@ export function addLocations() {
       <input id="${location.id}-add-item" type="button" value="+" />
     `;
 
+    const option = document.createElement('option');
+    option.value = location.name;
+    locationList.appendChild(option);
+
     document.querySelector('body').append(locationItems);
 
     domUtils.addListener(locationItems.querySelector('.remove-location'), 'click', () => {
@@ -57,6 +64,8 @@ export function addLocations() {
         <span class="location-name foolish pass-click-through">${location.name}</span>
       `;
     });
-    new ButtonAddItem(domUtils.el(`#${location.id}-add-item`), domUtils.el(`#${location.id}-items`));
+    new ButtonAddItem(domUtils.el(`#${location.id}-add-item`), domUtils.el(`#${location.id}-items`), location.id);
   });
+
+  document.body.appendChild(locationList);
 }

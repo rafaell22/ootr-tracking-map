@@ -3,7 +3,7 @@ import inputManager from './InputManager.js';
 import pubSub from './PubSub.js';
 
 export default class Song extends Fsm {
-  constructor(src, name) {
+  constructor(songId, name) {
     super([
       { name: 'addSong', from: 'notAcquired', to: 'acquired' },
       { name: 'removeSong', from: 'acquired', to: 'notAcquired'}
@@ -18,7 +18,7 @@ export default class Song extends Fsm {
         this.addGreyedOutImg();
       }).bind(this),
     };
-    this.src = src;
+    this.songId = songId;
     this.name = name;
     this.img = document.createElement('img');
     this.img.title = this.name;
@@ -30,14 +30,14 @@ export default class Song extends Fsm {
     pubSub.subscribe('item-removed', this.onItemRemoved.bind(this));
   }
 
-  onItemAcquired(value) {
-    if(value === this.src.replace(/^.*\//,'')) {
+  onItemAcquired(itemId) {
+    if(itemId === this.songId) {
       this.addSong();
     }
   }
 
-  onItemRemoved(value) {
-    if(value === this.src.replace(/^.*\//,'')) {
+  onItemRemoved(itemId) {
+    if(itemId === this.songId) {
       this.removeSong();
     }
   }
@@ -60,11 +60,11 @@ export default class Song extends Fsm {
   }
 
   addGreyedOutImg() {
-    this.img.src = this.src.replace('_32x32.png', '-bw_32x32.png');
+    this.img.src = `assets/${this.songId}-bw_32x32.png`;
   }
 
   addImg() {
-    this.img.src = this.src;
+    this.img.src = `assets/${this.songId}_32x32.png`;
   }
 
   appendTo(container) {

@@ -10,6 +10,7 @@ export default class SelectItems {
     */
   constructor(elSelect) {
     this.elSelect = elSelect;
+    this.idOfCaller = null;
 
     pubSub.subscribe('hide-select-items', this.hide.bind(this));
     pubSub.subscribe('show-select-items', this.show.bind(this))
@@ -18,7 +19,8 @@ export default class SelectItems {
   }
 
   onSelectItem() {
-    pubSub.publish('item-selected', this.value(), this.description());
+    pubSub.publish('item-selected', this.idOfCaller, this.value(), this.description());
+    this.idOfCaller = null;
     pubSub.publish('song-selected', this.value());
     this.hide();
     this.options[this.selectedIndex].selected = false;
@@ -26,9 +28,11 @@ export default class SelectItems {
   }
 
   /**
+    * @param {string} id
     * @param {Point} point
     */
-  show(point) {
+  show(id, point) {
+    this.idOfCaller = id;
     domUtils.show(this.elSelect);
     this.elSelect.style.left = `${point.x}px`;
     this.elSelect.style.top = `${point.y}px`;

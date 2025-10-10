@@ -1,7 +1,7 @@
 import Med from '../classes/Med.js';
 import domUtils from '../domUtils.js';
 
-const meds = [
+export const meds = [
   {
     id: 'kokiri-emerald',
     name: 'Kokiri Emerald'
@@ -43,7 +43,7 @@ const meds = [
 export function addMeds() {
   const medsContainer = domUtils.el('#meds');
   meds.forEach((medData) => {
-    const med = new Med(`../../assets/${medData.id}_32x32.png`, medData.name);
+    const med = new Med(medData.id, medData.name);
     med.appendTo(medsContainer);
   });
 }

@@ -16,7 +16,6 @@ export default class ContextMenu {
 
       domUtils.toggle(this.el);
       pubSub.publish('hide-select-items');
-      pubSub.unsubscribeAll('item-selected');
       this.el.style.left = `${clickEvent.x}px`;
       this.el.style.top = `${clickEvent.y}px`;
     }).bind(this));
