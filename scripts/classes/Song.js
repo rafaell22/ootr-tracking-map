@@ -1,3 +1,5 @@
+import ItemAcquiredEvent from './events/ItemAcquiredEvent.js';
+import ItemRemovedEvent from './events/ItemRemovedEvent.js';
 import Fsm from './Fsm.js';
 import inputManager from './InputManager.js';
 import pubSub from './PubSub.js';
@@ -30,14 +32,20 @@ export default class Song extends Fsm {
     pubSub.subscribe('item-removed', this.onItemRemoved.bind(this));
   }
 
-  onItemAcquired(itemId) {
-    if(itemId === this.songId) {
+  /**
+    * @param {ItemAcquiredEvent} event
+    */
+  onItemAcquired(event) {
+    if(event.itemId === this.songId) {
       this.addSong();
     }
   }
 
-  onItemRemoved(itemId) {
-    if(itemId === this.songId) {
+  /**
+    * @param {ItemRemovedEvent} event
+    */
+  onItemRemoved(event) {
+    if(event.itemId === this.songId) {
       this.removeSong();
     }
   }

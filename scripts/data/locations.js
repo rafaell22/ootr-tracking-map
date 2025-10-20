@@ -1,7 +1,5 @@
 // @ts-check
-import domUtils from '../domUtils.js';
-import ButtonAddItem from '../classes/ButtonAddItem.js';
-import SelectItems from '../classes/SelectItems.js';
+import LocationItems from '../classes/LocationItems.js';
 
 const locations = [
   { id: 'lon-lon', name: 'Lon Lon Ranch' },
@@ -38,33 +36,18 @@ const locations = [
   { id: 'fire-temple', name: 'Fire Temple'},
 ];
 
+export const locationItems = {};
+
 export function addLocations() {
   const locationList = document.createElement('datalist');
   locationList.id = 'location-list';
 
   locations.forEach((location) => {
-    const locationItems = document.createElement('div');
-    locationItems.id = `${location.id}-items`;
-    locationItems.classList.add('items');
-    locationItems.classList.add('pass-click-through');
-    locationItems.innerHTML = `
-      <span class="location-name pass-click-through">
-        <input class="remove-location hidden" value="X" />${location.name}</span>
-      <input id="${location.id}-add-item" type="button" value="+" />
-    `;
-
     const option = document.createElement('option');
     option.value = location.name;
     locationList.appendChild(option);
 
-    document.querySelector('body').append(locationItems);
-
-    domUtils.addListener(locationItems.querySelector('.remove-location'), 'click', () => {
-      locationItems.innerHTML = `
-        <span class="location-name foolish pass-click-through">${location.name}</span>
-      `;
-    });
-    new ButtonAddItem(domUtils.el(`#${location.id}-add-item`), domUtils.el(`#${location.id}-items`), location.id);
+    locationItems[location.id] = new LocationItems(location.id, location.name);
   });
 
   document.body.appendChild(locationList);

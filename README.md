@@ -16,10 +16,15 @@
 - Right click on the map and then select a color to draw using different colors
 ## List of Medallions
 - Left click on a medallion to mark it acquired
-- Right click on a medallion to pick a dungeon from the select box
+- Use the mouse scroll when hovering on a medallion to pick a dungeon. Scroll up for children dungeons, scroll down for adult dungeons
 ## List of Songs
 - The songs in the list are automatically marked as acquired after you add them to a location
 - They can also be manually clicked
+## Hints
+- Right click a hint "+" button to mark it as "dead" (X icon)
+- Left click the "dead" icon to display a "small key" icon
+- Left click again to remove item
+- Left click "+" button to add items from dropdown
 
 # TODO / BUGS
 ~~- Add button to remove the location (for foolish hints)~~
@@ -88,6 +93,6 @@
 
 - Separate all pubSub event payloads in specific classes (try to find a place to find all available events)
 
-- Update pubsub to handle "once" function
+~~- Update pubsub to handle "once" function~~
 
 ~~- Think about updating event handling in buttons to check for id instead of subscribing every time they are clicked~~

@@ -14,6 +14,7 @@ import { addHints } from './data/alwaysHints.js';
 import { addMeds } from './data/meds.js';
 import { addSongs } from './data/songs.js';
 import {addSometimesHints} from './data/sometimesHints.js';
+import SetLineColorEvent from './classes/events/SetLineColorEvent.js';
 
 const game = new Game({});
 
@@ -68,8 +69,8 @@ pubSub.subscribe('show-select-items', () => {
   point1 = null;
 })
 
-pubSub.subscribe('set-line-color', (color) => {
-  lineColor = color;
+pubSub.subscribe('set-line-color', /** @param {SetLineColorEvent} event */ (event) => {
+  lineColor = event.colorHex;
 });
 pubSub.subscribe('remove-line', () => {
   lines.pop();

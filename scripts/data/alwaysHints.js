@@ -27,7 +27,7 @@ const alwaysHints = [
     checks: [{
       id: 'ice-cavern-final-reward',
       description: 'Ice Cavern final reward',
-      location: 'ice cavern'
+      location: 'ice-cavern'
     },
     {
       id: 'ice-cavern-song',

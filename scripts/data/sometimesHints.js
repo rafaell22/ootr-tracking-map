@@ -9,8 +9,8 @@ const sometimesHintsLocations = [
 		'Goron City Hammer Chest',
 		'Goron Pot',
 		'HBA (1000)',
-		'Icy Waters',
-		'King Zora',
+		'Bottom Fountain - Icy Waters',
+		'Unfreeze King Zora',
 		'Lab Dive',
 		'Royal Tomb Torches',
 		'Shadow Trial 2',
@@ -20,7 +20,7 @@ const sometimesHintsLocations = [
 		'Target in the Woods',
 		'Treasure Chest Game',
 		'Valley Rocks',
-		'Wasteland',
+		'Haunted Wasteland',
 
 		'Fire - Flare Dancer',
 		'Fire - Pierre',
@@ -42,9 +42,10 @@ const sometimesHintsLocations = [
 		'Child & Adult Fishing',
 		'Bombchu Bowling',
 		'Water - Dark Link & River',
-		'Ice - Song & Treasure',
 		'Domain - Diving & Torches',
 		'Hammer Chests - GC & Valley',
+		'Hammer Chests - GC',
+		'Hammer Chests - Valley',
 		'Fire - Pierre & Hammer Chest',
 		'Spirit - Right & Left Hands',
 		'Spirit - Child Crawl Spaces',
@@ -97,7 +98,7 @@ export function addSometimesHints() {
   document.body.appendChild(locationsList);
 
   const hintsEl = domUtils.el('#sometimes-hints');
-  sometimesHints.forEach((hint) => {
+  sometimesHints.forEach((hint, index) => {
     const hintContainer = document.createElement('div');
     hintContainer.classList.add('hint-container');
     hintsEl.append(hintContainer);

@@ -3,6 +3,11 @@ import Item from './Item.js';
 import pubSub from './PubSub.js';
 import Point from './Point.js';
 import inputManager from './InputManager.js';
+import ItemRemovedEvent from './events/ItemRemovedEvent.js';
+import AlwaysHintMarked from './events/AlwaysHintMarked.js';
+import ItemSelectedEvent from './events/ItemSelectedEvent.js';
+import ShowSelectItemsEvent from './events/ShowSelectItemsEvent.js';
+import ItemAcquiredEvent from './events/ItemAcquiredEvent.js';
 
 export default class ButtonAddHint {
   constructor(elButton, locationId) {
@@ -12,10 +17,10 @@ export default class ButtonAddHint {
     this.itemId = null;
 
     domUtils.addListener(this.elButton, 'click', (function(clickEvent) {
-      pubSub.publish('show-select-items', this.id, new Point(
+      pubSub.publish('show-select-items', new ShowSelectItemsEvent(this.id, new Point(
         clickEvent.x, 
         clickEvent.y,
-      ));
+      )));
     }).bind(this));
 
     inputManager.subscribe('contextmenu', (function(clickEvent) {
@@ -27,29 +32,62 @@ export default class ButtonAddHint {
     }).bind(this))
 
 
-    pubSub.subscribe('item-selected', (function(id, itemId, itemName) {
-      if(id !== this.id) {
-        return;
-      }
+    pubSub.subscribe('item-selected', this.onItemSelected.bind(this));
+    pubSub.subscribe('item-acquired', this.onItemAcquired.bind(this));
+  }
 
-      this.addItem.call(this, itemId, itemName)
+  /**
+    * @param {ItemAcquiredEvent} event
+    */
+  onItemAcquired(event) {
+    if(
+      event.itemId === 'dead' ||
+      !this.item ||
+      !this.locationId ||
+      !event.locationId ||
+      event.buttonId === this.id ||
+      event.locationId !== this.locationId ||
+      event.itemId !== this.itemId
+    ) {
+      return;
+    }
 
-    }).bind(this))
+    this.item.markAcquired.call(this.item);
+  }
+
+  /**
+    * @param {ItemSelectedEvent} event
+    */
+  onItemSelected(event) {
+    if(event.anchorId !== this.id) {
+      return;
+    }
+
+    this.addItem.call(this, event.itemId, event.itemName)
   }
 
   addItem(itemId, itemName) {
-    const item = new Item(itemId, itemName, this.locationId);
-    this.elButton.after(item.el());
+    this.item = new Item(this.id, itemId, itemName, this.locationId);
+    this.elButton.after(this.item.el());
     this.itemId = itemId;
     this.hide();
-    pubSub.subscribe(`${this.itemId}-item-removed`, (function(locationId) {
-      if(locationId !== this.locationId) {
-        return;
-      }
+    pubSub.subscribe('item-removed', this.onItemRemoved.bind(this), true);
 
-      this.show();
-      this.itemId = null;
-    }).bind(this), true);
+    pubSub.publish('always-hint-marked', new AlwaysHintMarked(this.id, this.locationId, itemId, itemName));
+  }
+
+  /**
+    * @param {ItemRemovedEvent} event
+    */
+  onItemRemoved(event) {
+    if(event.buttonId !== this.id) {
+      pubSub.subscribe('item-removed', this.onItemRemoved.bind(this), true);
+      return;
+    }
+
+    this.show();
+    this.itemId = null;
+    this.item = null;
   }
 
   hide() {

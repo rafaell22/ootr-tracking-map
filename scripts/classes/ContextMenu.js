@@ -2,6 +2,7 @@
 import domUtils from '../domUtils.js';
 import inputManager from '../classes/InputManager.js';
 import pubSub from './PubSub.js';
+import SetLineColorEvent from './events/SetLineColorEvent.js';
 
 export default class ContextMenu {
   /**
@@ -37,7 +38,7 @@ export default class ContextMenu {
     for(const color of colors) {
       domUtils.addListener(color, 'click', (function() {
         const selectedColor = this.el.querySelector('.selected');
-        pubSub.publish('set-line-color', color.style.backgroundColor);
+        pubSub.publish('set-line-color', new SetLineColorEvent(color.style.backgroundColor));
         selectedColor.classList.remove('selected');
         color.classList.add('selected');
       }).bind(this))

@@ -17,17 +17,11 @@ export class PubSub {
     if(!this.events[event]) {
         this.events[event] = [];
     }
-    const id = this.events[event].length + (new Date()).toISOString();
-    let eventCallback = callback;
-    if(once) {
-      eventCallback = (function(event, id, ...args) {
-        callback(...args);
-        this.unsubscribe(event, id);
-      }).bind(this, event, id)
-    }
+    const id = crypto.randomUUID();
     this.events[event].push({
         id: id,
-        callback: eventCallback
+        callback: callback,
+        once: once
     });
 
     return id;
@@ -40,9 +34,17 @@ export class PubSub {
    */
   publish(event, ...args) {
     if(this.events[event]) {
+        const eventIdsToRemove = [];
         this.events[event].forEach(listener => {
             listener.callback(...args);
+            if(listener.once) {
+              eventIdsToRemove.push(listener.id);
+            }
         });
+
+      eventIdsToRemove.forEach((id) => {
+        this.unsubscribe(event, id);
+      });
     }
   }
 

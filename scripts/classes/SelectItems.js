@@ -1,7 +1,8 @@
 // @ts-check
 
 import domUtils from '../domUtils.js';
-import Point from './Point.js';
+import ItemSelectedEvent from './events/ItemSelectedEvent.js';
+import ShowSelectItemsEvent from './events/ShowSelectItemsEvent.js';
 import pubSub from './PubSub.js';
 
 export default class SelectItems {
@@ -10,7 +11,7 @@ export default class SelectItems {
     */
   constructor(elSelect) {
     this.elSelect = elSelect;
-    this.idOfCaller = null;
+    this.anchorId = null;
 
     pubSub.subscribe('hide-select-items', this.hide.bind(this));
     pubSub.subscribe('show-select-items', this.show.bind(this))
@@ -19,23 +20,21 @@ export default class SelectItems {
   }
 
   onSelectItem() {
-    pubSub.publish('item-selected', this.idOfCaller, this.value(), this.description());
-    this.idOfCaller = null;
-    pubSub.publish('song-selected', this.value());
+    pubSub.publish('item-selected', new ItemSelectedEvent(this.anchorId, this.value(), this.description()));
+    this.anchorId = null;
     this.hide();
     this.options[this.selectedIndex].selected = false;
     this.options[0].selected = true;
   }
 
   /**
-    * @param {string} id
-    * @param {Point} point
+    * @param {ShowSelectItemsEvent} event
     */
-  show(id, point) {
-    this.idOfCaller = id;
+  show(event) {
+    this.anchorId = event.anchorId;
     domUtils.show(this.elSelect);
-    this.elSelect.style.left = `${point.x}px`;
-    this.elSelect.style.top = `${point.y}px`;
+    this.elSelect.style.left = `${event.location.x}px`;
+    this.elSelect.style.top = `${event.location.y}px`;
   }
 
   hide() {
