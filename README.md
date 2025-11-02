@@ -1,3 +1,15 @@
+# How to run
+## Install nodejs
+- Developed with nodejs 22.X, but should work with version 16+ (not tested though)
+## Clone project
+- Use git to clone project
+## Run a local http-server at the root of the project
+- There are many options for that, but I usually use the package `http-server` from npm
+- You can install `http-server` by opening a terminal and then running `npm -g -i http-server`
+- Then you `cd` to the project folder and simply run `http-server`. It will start a local http-server (default port is 8080)
+- Open a browser and then put the address into the address bar `http://localhost:8080`. I will open the tracker
+- The tracker has been tested/used mostly on Vivaldi/Chrome, not tested in other browsers
+
 # How to use
 ## Add items to location
 - Click "+" button in location
@@ -91,7 +103,7 @@
 
 - link always hints and locations
 
-- Separate all pubSub event payloads in specific classes (try to find a place to find all available events)
+~~- Separate all pubSub event payloads in specific classes (try to find a place to find all available events)~~
 
 ~~- Update pubsub to handle "once" function~~
 
