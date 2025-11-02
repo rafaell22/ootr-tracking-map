@@ -91,7 +91,7 @@
 
 - link always hints and locations
 
-- Separate all pubSub event payloads in specific classes (try to find a place to find all available events)
+~~- Separate all pubSub event payloads in specific classes (try to find a place to find all available events)~~
 
 ~~- Update pubsub to handle "once" function~~
 
