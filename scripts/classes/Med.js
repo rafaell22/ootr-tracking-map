@@ -57,6 +57,10 @@ export default class Med extends Fsm {
     }
 
     clickEvent.stopPropagation();
+    this.toggleMed.call(this);
+  }
+
+  toggleMed() {
     switch(true) {
       case this.is('notAcquired'):
         this.addMed();

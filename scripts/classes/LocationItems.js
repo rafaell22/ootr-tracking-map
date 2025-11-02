@@ -36,4 +36,8 @@ export default class LocationItems {
   createButtonToAddItems() {
     this.button = new ButtonAddItem(domUtils.el(`#${this.id}-add-item`), domUtils.el(`#${this.id}-items`), this.id);
   }
+
+  addItem(itemId, itemName) {
+    this.button.addItem(itemId, itemName);
+  }
 }

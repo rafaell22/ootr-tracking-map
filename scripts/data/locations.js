@@ -1,7 +1,7 @@
 // @ts-check
 import LocationItems from '../classes/LocationItems.js';
 
-const locations = [
+export const locations = [
   { id: 'lon-lon', name: 'Lon Lon Ranch' },
   { id: 'lake', name: 'Lake' },
   { id: 'field', name: 'Hyrule Field' },
