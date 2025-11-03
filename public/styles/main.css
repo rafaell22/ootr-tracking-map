@@ -1,0 +1,434 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#context-menu {
+  position: absolute;
+  z-index: 30;
+  padding: 5px;
+  background-color: #ddd;
+  border-radius: 5px;
+  border: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#context-menu>input {
+  width: 200px;
+}
+
+#context-menu>input[type="button"] {
+  padding: 5px;
+}
+
+#context-menu #colors {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 5px;
+}
+
+#context-menu #color-1 {
+  background-color: #0000ff;
+}
+
+#context-menu #color-2 {
+  background-color: #ff0000;
+}
+
+#context-menu #color-3 {
+  background-color: #00ff00;
+}
+
+#context-menu #color-4 {
+  background-color: #ffff00;
+}
+
+#context-menu .color {
+  width: 32px;
+  height: 32px;
+}
+
+#context-menu .color.selected {
+  border: 2px solid #fff;
+}
+
+.items {
+  position: absolute;
+  width: 100px;
+  /*border: 1px solid #000;*/
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1px;
+  z-index: 10;
+}
+
+.items>div, .items>input[type="button"] {
+  width: 32px;
+  height: 32px;
+}
+
+.items img {
+  background-color: #333;
+}
+
+.items .location-name {
+  position: absolute;
+  top: -20px;
+  width: max-content;
+  cursor: default;
+  -webkit-text-stroke: 1px white;
+  font-weight: bolder;
+}
+
+.items .location-name.foolish {
+  text-decoration: line-through;
+  text-decoration-color: red;
+  color: red;
+}
+
+.items .remove-location {
+  width: 16px;
+  height: 16px;
+  border: 0;
+  background-color: #00000000;
+  cursor: pointer;
+}
+
+#select-items, #select-med-location {
+  position: absolute;
+  width: 200px;
+  z-index: 20;
+}
+
+#lon-lon-items {
+  left: 580px;
+  top: 280px;
+}
+
+#lake-items {
+  left: 550px;
+  top: 600px;
+}
+
+#field-items {
+  left: 650px;
+  top: 400px;
+}
+
+#water-temple-items {
+  left: 450px;
+  top: 675px;
+}
+
+#gerudo-valley-items {
+  left: 315px;
+  top: 315px;
+}
+
+#gerudo-fortress-items {
+  left: 300px;
+  top: 135px;
+}
+
+#gerudo-training-grounds-items {
+  left: 300px;
+  top: 25px;
+}
+
+#wastelands-items {
+  left: 150px;
+  top: 125px;
+}
+
+#desert-colossus-items {
+  left: 10px;
+  top: 200px;
+}
+
+#spirit-temple-items {
+  left: 10px;
+  top: 25px;
+}
+
+#hyrule-castle-items {
+  left: 600px;
+  top: 25px;
+}
+
+#ganon-castle-items {
+  left: 485px;
+  top: 25px;
+}
+
+#market-items {
+  left: 600px;
+  top: 135px;
+}
+
+#kokiri-forest-items {
+  left: 980px;
+  top: 475px;
+}
+
+#deku-tree-items {
+  left: 1095px;
+  top: 365px;
+}
+
+#lost-woods-items {
+  left: 865px;
+  top: 365px;
+}
+
+#sacred-forest-meadow-items {
+  left: 980px;
+  top: 365px;
+}
+
+#forest-temple-items {
+  left: 980px;
+  top: 255px;
+}
+
+#kakariko-items {
+  left: 750px;
+  top: 265px;
+}
+
+#graveyard-items {
+  left: 865px;
+  top: 135px;
+}
+
+#shadow-temple-items {
+  left: 980px;
+  top: 135px;
+}
+
+#zora-river-items {
+  left: 1095px;
+  top: 255px;
+}
+
+#zora-domain-items {
+  left: 1210px;
+  top: 255px;
+}
+
+#zora-fountain-items {
+  left: 1095px;
+  top: 135px;
+}
+
+#ice-cavern-items {
+  left: 1210px;
+  top: 25px;
+}
+
+#jabu-jabu-items {
+  left: 1210px;
+  top: 135px;
+}
+
+#death-mountain-items {
+  left: 865px;
+  top: 25px;
+}
+
+#death-mountain-crater-items {
+  left: 980px;
+  top: 25px;
+}
+
+#goron-city-items {
+  left: 750px;
+  top: 25px;
+}
+
+#dodongo-cavern-items {
+  left: 750px;
+  top: 135px;
+}
+
+#fire-temple-items {
+  left: 1095px;
+  top: 25px;
+}
+
+#bottom-of-the-well-items {
+  left: 865px;
+  top: 255px;
+}
+
+#fire-temple-items, #forest-temple-items, #water-temple-items, #shadow-temple-items, #spirit-temple-items, #deku-tree-items, #dodongo-cavern-items, #jabu-jabu-items {
+  border: 1px solid red;
+  border-radius: 5px;
+  background-color: #888;
+}
+
+#hints {
+  z-index: 10;
+  top: 15px;
+  left: 1345px;
+  flex-direction: column;
+  gap: 10px;
+  width: 130px;
+}
+
+#hints .hint-container {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+#hints input[type="button"] {
+  width: 32px;
+  height: 32px;
+}
+
+#meds {
+  top: 280px;
+  left: 1345px;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 130px;
+}
+
+#meds img {
+  width: 32px;
+  height: 32px;
+}
+
+#meds span {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: bolder;
+  color: white;
+}
+
+#meds>div {
+  position: relative;
+}
+
+#training-mode {
+  flex-direction: column;
+  gap: 5px;
+  position: absolute;
+  left: 675px;
+  top: 600px;
+  z-index: 10;
+  width: 800px;
+}
+
+#training-mode>div {
+  display: flex;
+}
+
+#training-mode label {
+  width: 150px;
+  line-height: 32px;
+}
+
+#training-mode input {
+  width: 300px;
+}
+
+#training-mode span {
+  flex-grow: 1;
+  line-height: 32px;
+  border: 1px solid #888;
+  padding: 1px 2px;
+  background-color: #fff;
+}
+
+#songs {
+  top: 328px;
+  left: 1485px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 254px;
+  background-color: #888;
+  border: 1px solid #333;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#songs>img {
+  width: 32px;
+  height: 32px;
+}
+
+#sometimes-hints {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 5px;
+  width: 254px;
+  left: 1485px;
+  top: 15px;
+}
+
+#sometimes-hints>div {
+  display: flex;
+  gap: 5px;
+}
+
+#sometimes-hints input[type="text"] {
+  flex-grow: 1;
+  width: 100px;
+}
+
+#sometimes-hints input[type="button"] {
+  width: 32px;
+  height: 32px;
+}
+
+.tracker-containers {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  background-color: #888;
+  border: 1px solid #333;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#spawn {
+  left: 1345px;
+  top: 430px;
+  flex-direction: column;
+  width: 395px;
+  gap: 5px;
+}
+
+#spawn div {
+  display: flex;
+}
+
+#spawn label {
+  width: 55px;
+  line-height: 32px;
+}
+
+#spawn input {
+  flex-grow: 1;
+}
