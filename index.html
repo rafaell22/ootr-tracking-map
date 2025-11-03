@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="/styles/main.css">
+    <style>
+    </style>
+  </head>
+<body>
+  <select id="select-items" class="hidden">
+    <option value="" disabled selected>--Choose an item--</option>
+    <option value="dead">Dead</option>
+    <option value="key-item">Key Item</option>
+    <option value="bottle-big-poe">Big Poe Bottle</option>
+    <option value="bombs">Bombs</option>
+    <option value="boomerang">Boomerang</option>
+    <option value="bottle-empty">Bootle</option>
+    <option value="bow">Bow</option>
+    <option value="claim-check">Claim Check</option>
+    <option value="dins-fire">Dins Fire</option>
+    <option value="fire-arrows">Fire Arrows</option>
+    <option value="golden-scale">Golden Scale</option>
+    <option value="goron-tunic">Goron Tunic</option>
+    <option value="hammer">Hammer</option>
+    <option value="hookshot">Hookshot</option>
+    <option value="hover-boots">Hover Boots</option>
+    <option value="ice-arrows">Ice Arrows</option>
+    <option value="iron-boots">Iron Boots</option>
+    <option value="kokiri-sword">Kokiri Sword</option>
+    <option value="light-arrows">Light Arrows</option>
+    <option value="longshot">Longshot</option>
+    <option value="magic">Magic</option>
+    <option value="mirror-shield">Mirror Shield</option>
+    <option value="bottle-rutos-letter">Ruto's Letter</option>
+    <option value="scale">Scale</option>
+    <option value="slingshot">Slingshot</option>
+    <option value="strength">Strength</option>
+    <option value="strength2">Strength 2</option>
+    <option value="strength3">Strength 3</option>
+    <option value="zora-tunic">Zora Tunic</option>
+    <option value="" disabled>--Choose a song--</option>
+    <option value="bolero">Bolero</option>
+    <option value="epona">Epona's Song</option>
+    <option value="minuet">Minuet</option>
+    <option value="nocturne">Nocturne</option>
+    <option value="requiem">Requiem</option>
+    <option value="saria">Saria's Song</option>
+    <option value="serenade">Serenade</option>
+    <option value="song-of-storms">Song of Storms</option>
+    <option value="ocarina">Song of Time</option>
+    <option value="suns-song">Sun's Song</option>
+    <option value="zeldas-lullaby">Zelda's Lullaby</option>
+  </select>
+
+  <select id="select-med-location" class="hidden">
+    <option value="" disabled selected>--Choose a location--</option>
+    <option value="link">Link's Pocket</option>
+    <option value="deku">Deku Tree</option>
+    <option value="dc">Dodongo Cavern</option>
+    <option value="jabu">Jabu Jabu</option>
+    <option value="forest">Forest Temple</option>
+    <option value="fire">Fire Temple</option>
+    <option value="water">Water Temple</option>
+    <option value="shadow">Shadow Temple</option>
+    <option value="spirit">Spirit Temple</option>
+  </select>
+
+  <div id="context-menu" class="hidden">
+    <div id="colors">
+      <div id="color-1" class="color selected" style="background-color: #0000ff;"></div>
+      <div id="color-2" class="color" style="background-color: #ff0000;"></div>
+      <div id="color-3" class="color" style="background-color: #00ff00;"></div>
+      <div id="color-4" class="color" style="background-color: #ffff00;"></div>
+    </div>
+    <input id="undo" type="button" value="Undo" />
+    <input id="foolish" type="button" value="Foolish" />
+  </div>
+
+  <div id="hints" class="tracker-containers"></div>
+
+  <div id="meds" class="tracker-containers"></div>
+
+  <div id="songs" class="tracker-containers"></div>
+
+  <div id="sometimes-hints" class="tracker-containers"></div>
+
+  <div id="spawn" class="tracker-containers">
+    <div>
+      <label>Child</label>
+      <input list="location-list" type="text" />
+    </div>
+    <div>
+      <label>Adult</label>
+      <input list="location-list" type="text" />
+    </div>
+  </div>
+
+  <div id="training-mode" class="hidden">
+    <label for="load-spoiler-log">Select Spoiler Log</label>
+    <input type="file" name="load-spoiler-log" id="load-spoiler-log" />
+  </div>
+
+  <script src="./scripts/extendObject.js"></script>
+  <script src="./scripts/extendCanvasRenderingContext2D.js"></script>
+  <script type="module" src="./scripts/main.js"></script>
+</body>
+</html>
