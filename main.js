@@ -9,13 +9,13 @@ const createWindow = () => {
     title: 'Logic Tracker',
     backgroundColor: "#333",
     webPreferences: {
-      devTools: true,
+      devTools: false,
       backgroundThrottling: false,
       contextIsolation: true,
     }
   });
 
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 
   win.loadFile('./public/index.html');
   win.setBackgroundColor('#333')
