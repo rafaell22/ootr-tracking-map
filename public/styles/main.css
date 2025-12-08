@@ -432,3 +432,12 @@ body {
 #spawn input {
   flex-grow: 1;
 }
+
+#voice {
+  position: absolute;
+  top: 550px;
+  left: 1350px;
+  height: 64px;
+  width: 300px;
+  z-index: 10;
+}

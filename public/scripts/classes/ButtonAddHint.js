@@ -16,24 +16,37 @@ export default class ButtonAddHint {
     this.locationId = locationId;
     this.itemId = null;
 
-    domUtils.addListener(this.elButton, 'click', (function(clickEvent) {
-      pubSub.publish('show-select-items', new ShowSelectItemsEvent(this.id, new Point(
-        clickEvent.x, 
-        clickEvent.y,
-      )));
-    }).bind(this));
+    domUtils.addListener(this.elButton, 'click', this.onClick.bind(this));
 
-    inputManager.subscribe('contextmenu', (function(clickEvent) {
-      if(clickEvent.target !== this.elButton) {
-        return;
-      }
-
-      this.addItem.call(this, 'dead', 'Dead');
-    }).bind(this))
+    inputManager.subscribe('contextmenu', this.onContextMenu.bind(this))
 
 
     pubSub.subscribe('item-selected', this.onItemSelected.bind(this));
     pubSub.subscribe('item-acquired', this.onItemAcquired.bind(this));
+  }
+
+  /**
+    * @param {PointerEvent} clickEvent
+    */
+  onContextMenu(clickEvent) {
+    if(clickEvent.target !== this.elButton) {
+      return;
+    }
+
+    this.addItem.call(this, 'dead', 'Dead');
+  }
+
+  /**
+    * @param {PointerEvent} clickEvent
+    */
+  onClick(clickEvent) {
+    pubSub.publish('show-select-items', new ShowSelectItemsEvent(
+      this.id, 
+      new Point(
+        clickEvent.x, 
+        clickEvent.y,
+      )
+    ));
   }
 
   /**

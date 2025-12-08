@@ -69,8 +69,11 @@ const alwaysHints = [
   }
 ];
 
+export const alwaysHintsButtons = {};
+
 export function addHints() {
   const hintsEl = domUtils.el('#hints');
+
   alwaysHints.forEach((hint) => {
     const hintContainer = document.createElement('div');
     hintContainer.classList.add('hint-container');
@@ -84,7 +87,9 @@ export function addHints() {
       input.type = 'button';
       input.value = '+';
       hintContainer.append(input);
-      new ButtonAddHint(input, check.location);
+      alwaysHintsButtons[check.id] = new ButtonAddHint(input, check.location);
     });
   });
-}
+
+  return alwaysHintsButtons;
+};

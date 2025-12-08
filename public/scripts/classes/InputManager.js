@@ -9,10 +9,19 @@ class InputManager extends PubSub {
       }
       this.publish('click', event);
     }).bind(this));
+
     document.addEventListener('contextmenu', (function(event) {
       event.preventDefault();
       this.publish('contextmenu', event);
-    }).bind(this))
+    }).bind(this));
+
+    document.addEventListener('mouseup', (function(event) {
+      this.publish('mouseup', event);
+    }).bind(this));
+
+    document.addEventListener('mousedown', (function(event) {
+      this.publish('mousedown', event);
+    }).bind(this));
 
   }
 }

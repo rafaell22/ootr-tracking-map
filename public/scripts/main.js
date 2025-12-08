@@ -16,6 +16,7 @@ import { addSongs } from './data/songs.js';
 import {addSometimesHints} from './data/sometimesHints.js';
 import SetLineColorEvent from './classes/events/SetLineColorEvent.js';
 //import './trainingMode.js';
+//import { recorder } from './recognizer.js';
 
 const game = new Game({});
 
@@ -86,5 +87,18 @@ addMeds();
 addSongs();
 addSometimesHints();
 
+inputManager.subscribe('mousedown', (event) => {
+  console.log(event)
+  if(event.target.id === 'voice') {
+    if(recorder && recorder.start()) {
+        console.log('Recording...')
+    }
+  }
+});
 
-// ===============================================
+inputManager.subscribe('mouseup', (event) => {
+  if(event.target.id === 'voice') {
+    recorder.stop();
+    console.log('Recording stopped!')
+  }
+});
