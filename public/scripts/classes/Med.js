@@ -3,6 +3,9 @@ import Fsm from './Fsm.js';
 import inputManager from './InputManager.js';
 
 const medLocations = [
+  'well',
+  'ice',
+  'gtg',
   'jabu',
   'dc',
   'deku',
@@ -33,13 +36,14 @@ export default class Med extends Fsm {
       }).bind(this),
       onMarkCompletable: this.addBorder.bind(this),
     };
-    this.medLocationIndex = 4;
+    this.medLocationIndex = 7;
     this.medId = medId;
     this.name = name;
     this.img = document.createElement('img');
     this.img.title = this.name;
     this.location = document.createElement('span');
     this.container = document.createElement('div');
+    this.container.classList.add('med')
     this.container.append(this.img);
     this.container.append(this.location);
 

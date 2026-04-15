@@ -1,6 +1,7 @@
 import Mainloop from './Mainloop.js';
 import Fsm from './Fsm.js';
-import Canvas from './Canvas.js';
+import Map from './Map.js';
+import pubSub from './PubSub.js';
 
 class Game extends Fsm {
   constructor(options = {}) {
@@ -15,13 +16,15 @@ class Game extends Fsm {
       'setup'
      );
 
-    this.canvas = new Canvas();
+    this.canvas = this.map = new Map(options.canvas);
     document.querySelector('body').appendChild(this.canvas.canvas);
     this.context = this.canvas.context;
 
     this.version = options.version;
 
     this.imageCache = options.imageCache || {};
+    pubSub.subscribe('loadImages', this.loadImages.bind(this));
+
     this.jsonCache = options.jsonCache || {};
     this.cache = {
       images: [],
@@ -55,7 +58,9 @@ class Game extends Fsm {
 
   async loadImages(sources) {
     for(let sourceIndex = (sources.length - 1); sourceIndex > -1; sourceIndex--) {
-      this.cache.images[sources[sourceIndex]] = await this.loadImage(sources[sourceIndex]);
+      if(!this.cache.images[sources[sourceIndex]]) {
+        this.cache.images[sources[sourceIndex]] = await this.loadImage(sources[sourceIndex]);
+      }
     }
   }
 

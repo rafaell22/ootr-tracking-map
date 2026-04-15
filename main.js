@@ -4,10 +4,10 @@ let win;
 
 const createWindow = () => {
   win = new BrowserWindow({
-    width: 1800,
-    height: 1180,
+    width: 1100,
+    height: 800,
     title: 'Logic Tracker',
-    backgroundColor: "#333",
+    backgroundColor: "#aaa",
     webPreferences: {
       devTools: false,
       backgroundThrottling: false,
@@ -18,7 +18,7 @@ const createWindow = () => {
   //win.webContents.openDevTools();
 
   win.loadFile('./public/index.html');
-  win.setBackgroundColor('#333')
+  win.setBackgroundColor('#aaa')
 };
 
 app.whenReady().then(() => {

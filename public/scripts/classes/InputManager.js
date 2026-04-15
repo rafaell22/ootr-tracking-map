@@ -7,7 +7,13 @@ class InputManager extends PubSub {
       if(event.target.tagName !== 'INPUT' && event.target.type !== 'file') {
         event.preventDefault();
       }
+
       this.publish('click', event);
+    }).bind(this));
+
+    document.addEventListener('auxclick', (function(event) {
+      event.preventDefault();
+      this.publish('middleclick', event);
     }).bind(this));
 
     document.addEventListener('contextmenu', (function(event) {
@@ -20,9 +26,14 @@ class InputManager extends PubSub {
     }).bind(this));
 
     document.addEventListener('mousedown', (function(event) {
-      this.publish('mousedown', event);
+      switch(event.button) {
+        case 1: 
+          this.publish('middlemousedown', event);
+          break;
+        default:
+          this.publish('mousedown', event);
+      }
     }).bind(this));
-
   }
 }
 
