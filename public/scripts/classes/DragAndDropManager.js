@@ -27,7 +27,7 @@ export class DragAndDropManager {
       return;
     }
 
-    pubSub.publish('drop-item', new DropItemEvent(this.itemBeingDragged.itemId, event.target));
+    pubSub.publish('drop-item', new DropItemEvent(this.itemBeingDragged.itemId, event.target, this.itemBeingDragged.name));
 
     this.itemBeingDragged = null;
   }

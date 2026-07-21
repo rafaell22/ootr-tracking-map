@@ -2,6 +2,7 @@ import domUtils from '../domUtils.js';
 import Item from './Item.js';
 import ShowSelectItemsEvent from './events/ShowSelectItemsEvent.js';
 import ItemRemovedEvent from './events/ShowSelectItemsEvent.js';
+import DropItemEvent from './events/DropItemEvent.js';
 import inputManager from './InputManager.js';
 import Point from './Point.js';
 import pubSub from './PubSub.js';
@@ -79,6 +80,7 @@ export default class LocationItems {
 
     pubSub.subscribe('item-selected', this.onItemSelected.bind(this));
     pubSub.subscribe('item-removed', this.onItemRemoved.bind(this));
+    pubSub.subscribe('drop-item', this.onItemDropped.bind(this));
   }
 
   /**
@@ -101,6 +103,21 @@ export default class LocationItems {
     }
 
     this.removeItem.call(this, event.itemId);
+  }
+
+  /**
+    * @param {DropItemEvent} event
+    */
+  onItemDropped(event) {
+    if(event.dropTarget.tagName !== 'IMG' || event.dropTarget.parentNode?.id !== this.id) {
+      return;
+    }
+
+    if(!event.itemId) {
+      return;
+    }
+
+    this.addItem(event.itemId, event.name);
   }
 
   addItem(itemId, itemName) {
