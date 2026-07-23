@@ -14,6 +14,7 @@ window.AudioRecorder = class AudioRecorder {
     this.initWorker();
 
     this.recording = false;
+    this.capturing = false;
     this.consumers = [];
   }
 
@@ -52,7 +53,7 @@ window.AudioRecorder = class AudioRecorder {
   }
 
   onAudioProcess(e) {
-    if (!this.recording) {
+    if (!this.capturing) {
       return;
     }
 
@@ -64,6 +65,18 @@ window.AudioRecorder = class AudioRecorder {
       ]
     });
 	}
+
+  startCapturing() {
+    this.capturing = true;
+  }
+
+  stopCapturing() {
+    this.capturing = false;
+
+    this.worker.postMessage({
+      eventType: 'CLEAR',
+    });
+  }
 
   start(data) {
     this.consumers.forEach((consumer, y, z) => {
@@ -87,9 +100,5 @@ window.AudioRecorder = class AudioRecorder {
 
       this.recording = false;
     }
-
-    this.worker.postMessage({ 
-      eventType: 'CLEAR',
-    });
   }
 }

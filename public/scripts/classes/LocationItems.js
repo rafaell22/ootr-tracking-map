@@ -1,7 +1,7 @@
 import domUtils from '../domUtils.js';
 import Item from './Item.js';
 import ShowSelectItemsEvent from './events/ShowSelectItemsEvent.js';
-import ItemRemovedEvent from './events/ShowSelectItemsEvent.js';
+import ItemRemovedEvent from './events/ItemRemovedEvent.js';
 import DropItemEvent from './events/DropItemEvent.js';
 import inputManager from './InputManager.js';
 import Point from './Point.js';
@@ -79,6 +79,7 @@ export default class LocationItems {
     }).bind(this))
 
     pubSub.subscribe('item-selected', this.onItemSelected.bind(this));
+    pubSub.subscribe('item-found', this.onItemFound.bind(this));
     pubSub.subscribe('item-removed', this.onItemRemoved.bind(this));
     pubSub.subscribe('drop-item', this.onItemDropped.bind(this));
   }
@@ -92,6 +93,17 @@ export default class LocationItems {
       }
 
       this.addItem.call(this, event.itemId, event.itemName);
+  }
+
+  /**
+    * @param {ItemFoundEvent} event
+    */
+  onItemFound(event) {
+      if(event.anchorId !== this.id) {
+        return;
+      }
+
+      this.addItem.call(this, event.itemId, event.itemName, true);
   }
 
   /**
@@ -120,7 +132,12 @@ export default class LocationItems {
     this.addItem(event.itemId, event.name);
   }
 
-  addItem(itemId, itemName) {
+  /**
+    * @param {string} itemId
+    * @param {string} itemName
+    * @param {boolean} [isFound] Whether the item should be placed already acquired (full-color, tracker-synced) instead of greyed-out.
+    */
+  addItem(itemId, itemName, isFound = false) {
     const item = new Item(this.id, itemId, itemName, this.locationId);
 
     this.itemContainer.append(item.el());
@@ -131,6 +148,10 @@ export default class LocationItems {
     item.el().style.position = 'absolute';
     item.el().style.backgroundColor = '#333';
     item.el().style.borderRadius = '50%';
+
+    if(isFound) {
+      item.acquire();
+    }
 
     this.items.push(item);
   }

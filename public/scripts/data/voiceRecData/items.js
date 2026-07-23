@@ -1,107 +1,119 @@
 export default [
     {
-        id: 'kokiri sword',
-        pronunciation: 'K OW K IH R IH S AO R D',
+        id: 'dead',
+        pronunciation: 'D EH D',
         to: ['end'],
     }, {
-        id: 'biggoron sword',
-        pronunciation: 'B IH G G AA R OW N S AO R D',
+        id: 'key-item',
+        pronunciation: 'K IY AY T AH M',
+        to: ['end'],
+    }, {
+        id: 'biggoron-sword',
+        pronunciation: 'B IH G G AO R AA N S AO R D',
+        to: ['end'],
+    }, {
+        id: 'bottle-big-poe',
+        pronunciation: 'B IH G P OW B AA T AH L',
         to: ['end'],
     }, {
         id: 'bombs',
         pronunciation: 'B AA M Z',
         to: ['end'],
     }, {
-        id: 'bow',
-        pronunciation: 'B AW',
+        id: 'boomerang',
+        pronunciation: 'B UW M ER AE NG',
         to: ['end'],
     }, {
-        id: 'fire arrows',
+        id: 'bottle-empty',
+        pronunciation: 'B AA T AH L',
+        to: ['end'],
+    }, {
+        id: 'bow',
+        pronunciation: 'B OW',
+        to: ['end'],
+    }, {
+        id: 'claim-check',
+        pronunciation: 'K L EY M CH EH K',
+        to: ['end'],
+    }, {
+        id: 'dins-fire',
+        pronunciation: 'D IH N Z F AY ER',
+        to: ['end'],
+    }, {
+        id: 'farores-wind',
+        pronunciation: 'F AH R AO R Z W IH N D',
+        to: ['end'],
+    }, {
+        id: 'fire-arrows',
         pronunciation: 'F AY ER AE R OW Z',
         to: ['end'],
     }, {
-        id: 'dins fire',
-        pronunciation: 'D IY N Z',
+        id: 'goron-tunic',
+        pronunciation: 'G AO R AA N T UW N IH K',
         to: ['end'],
     }, {
-        id: 'ruttos letter',
-        pronunciation: 'R UH T OW Z',
-        to: ['end'],
-    }, {
-        id: 'mirror shield',
-        pronunciation: 'M IH R ER  SH IY L D',
-        to: ['end'],
-    }, {
-        id: 'slingshot',
-        pronunciation: 'S L IH NG SH AA T',
+        id: 'hammer',
+        pronunciation: 'HH AE M ER',
         to: ['end'],
     }, {
         id: 'hookshot',
         pronunciation: 'HH UH K SH AA T',
         to: ['end'],
     }, {
-        id: 'longshot',
-        pronunciation: 'L AO NG SH AA T',
+        id: 'hover-boots',
+        pronunciation: 'HH AH V ER B UW T S',
         to: ['end'],
     }, {
-        id: 'ice arrows',
+        id: 'ice-arrows',
         pronunciation: 'AY S AE R OW Z',
         to: ['end'],
     }, {
-        id: 'bottle',
-        pronunciation: 'B AA T AH L',
+        id: 'iron-boots',
+        pronunciation: 'AY ER N B UW T S',
         to: ['end'],
     }, {
-        id: 'strength',
-        pronunciation: 'S T R EH NG K TH',
+        id: 'kokiri-sword',
+        pronunciation: 'K OW K IH R IY S AO R D',
         to: ['end'],
     }, {
-        id: 'goron tunic',
-        pronunciation: 'G AA R OW N T UW N IH K',
+        id: 'lens',
+        pronunciation: 'L EH N Z AH V T R UW TH',
         to: ['end'],
     }, {
-        id: 'zora tunic',
-        pronunciation: 'Z AA R AH',
-        to: ['end'],
-    }, {
-        id: 'boomerang',
-        pronunciation: 'B UW M ER AE NG',
-        to: ['end'],
-    }, {
-        id: 'megatton hammer',
-        pronunciation: 'M EH G AH T AH N HH AE M ER',
-        to: ['end'],
-    }, {
-        id: 'light arrows',
+        id: 'light-arrows',
         pronunciation: 'L AY T AE R OW Z',
-        to: ['end'],
-    }, {
-        id: 'wallet',
-        pronunciation: 'W AO L AH T',
         to: ['end'],
     }, {
         id: 'magic',
         pronunciation: 'M AE JH IH K',
         to: ['end'],
     }, {
-        id: 'iron boots',
-        pronunciation: 'AY ER N Z',
+        id: 'mirror-shield',
+        pronunciation: 'M IH R ER  SH IY L D',
         to: ['end'],
     }, {
-        id: 'hover boots',
-        pronunciation: 'HH AH V ER Z',
+        id: 'bottle-rutos-letter',
+        pronunciation: 'R UW T OW Z L EH T ER',
         to: ['end'],
     }, {
         id: 'scale',
         pronunciation: 'S K EY L',
         to: ['end'],
     }, {
-        id: 'gold scale',
-        pronunciation: 'G OW L D S K EY L',
+        id: 'slingshot',
+        pronunciation: 'S L IH NG SH AA T',
         to: ['end'],
     }, {
-        id: 'claim check',
-        pronunciation: 'K L EY M CH EH K',
+        id: 'strength',
+        pronunciation: 'S T R EH NG K TH',
+        to: ['end'],
+    }, {
+        id: 'wallet',
+        pronunciation: 'W AO L AH T',
+        to: ['end'],
+    }, {
+        id: 'zora-tunic',
+        pronunciation: 'Z AO R AH T UW N IH K',
         to: ['end'],
     },
 ];

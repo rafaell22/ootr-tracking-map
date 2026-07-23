@@ -1,6 +1,5 @@
 // @ts-check
 import Game from './classes/Game.js';
-//import inputManager from './classes/InputManager.js';
 import SelectItems from './classes/SelectItems.js';
 import domUtils from './domUtils.js';
 import ContextMenu from './classes/ContextMenu.js';
@@ -16,7 +15,8 @@ import {addSometimesHints} from './data/sometimesHints.js';
 import ToggleableItem from './classes/ToggleableItem.js';
 import ProgressiveItem from './classes/ProgressiveItem.js';
 //import './trainingMode.js';
-//import { recorder } from './recognizer.js';
+import { startVoiceControl } from './recognizer.js';
+import VoiceFeedback from './classes/VoiceFeedback.js';
 import './classes/DragAndDropManager.js';
 import DisplayItem from './classes/DisplayItem.js';
 import TextHint from './classes/TextHint.js';
@@ -63,23 +63,8 @@ addLocations();
 //addSongs();
 addSometimesHints();
 
-/**
-inputManager.subscribe('mousedown', (event) => {
-  console.log(event)
-  if(event.target.id === 'voice') {
-    if(recorder && recorder.start()) {
-        console.log('Recording...')
-    }
-  }
-});
-
-inputManager.subscribe('mouseup', (event) => {
-  if(event.target.id === 'voice') {
-    recorder.stop();
-    console.log('Recording stopped!')
-  }
-});
-*/
+new VoiceFeedback();
+startVoiceControl();
 
 // Testing new classes
 const itemsContainer = document.querySelector('#items');

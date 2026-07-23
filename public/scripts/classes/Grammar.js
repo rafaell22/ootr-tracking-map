@@ -18,10 +18,16 @@ export default class Grammar extends DirectedGraph {
 
     get transitions() {
         const vertexes = Object.keys(this.adjacencyList);
-        return { 
-            numStates: vertexes.length, 
-            start: 0, 
-            end: 0, 
+        const endIndex = vertexes.findIndex((key) => key === 'end');
+
+        if(endIndex === -1) {
+            throw new Error('Missing vertex end');
+        }
+
+        return {
+            numStates: vertexes.length,
+            start: 0,
+            end: endIndex,
             transitions: vertexes.reduce((acc, vertexKey) => {
                 const vertex = this.adjacencyList[vertexKey];
                 vertex.edges.forEach((edge) => {
