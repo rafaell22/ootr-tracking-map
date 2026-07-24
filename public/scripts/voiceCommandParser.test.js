@@ -60,3 +60,15 @@ test('a hyphenated item id round-trips correctly as a single token', () => {
         locationId: firstLocation.id,
     });
 });
+
+test('parses a valid "remove last" phrase as a global undo command', () => {
+    assert.deepStrictEqual(parseCommandHyp('item remove last'), { intent: 'remove-last' });
+});
+
+test('rejects a truncated "remove" phrase missing "last"', () => {
+    assert.strictEqual(parseCommandHyp('item remove'), null);
+});
+
+test('rejects a "remove last" phrase with a trailing extra token', () => {
+    assert.strictEqual(parseCommandHyp('item remove last now'), null);
+});

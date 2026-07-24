@@ -156,8 +156,17 @@ export default class LocationItems {
     this.items.push(item);
   }
 
-  removeItem(itemId) {
-    const index = this.items.findIndex(item => item.itemId === itemId);
+  /**
+    * @param {string} itemId
+    * @param {Item} [itemInstance] When given, the exact `Item` instance to remove
+    * (matched by identity via `indexOf`) instead of the first item matching `itemId`.
+    * Needed when the same `itemId` may be placed at this location more than once,
+    * since an itemId-only match could otherwise remove the wrong placement.
+    */
+  removeItem(itemId, itemInstance) {
+    const index = itemInstance
+      ? this.items.indexOf(itemInstance)
+      : this.items.findIndex(item => item.itemId === itemId);
     this.items.splice(index, 1);
 
     for(let i = 0; i < this.items.length; i++) {

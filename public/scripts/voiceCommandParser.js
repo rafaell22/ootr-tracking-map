@@ -11,6 +11,7 @@ const locationIds = new Set(locations.map((location) => location.id));
 const INTENTS = {
     FOUND: 'found',
     PEEK: 'peek',
+    REMOVE_LAST: 'remove-last',
 };
 
 /**
@@ -18,16 +19,21 @@ const INTENTS = {
  * command grammar's FSG recognizer) into a structured command.
  *
  * The grammar only ever produces a closed-vocabulary, space-separated token
- * sequence of the shape `item <found|peek> <itemId> at <locationId>`, but the
- * ~5-second command window can be forced to stop mid-utterance, so `hyp` may
- * also be a truncated/partial sequence. Anything that isn't exactly that
- * 5-token shape, with both ids present in the known vocab, is treated as an
- * invalid recognition.
+ * sequence, either `item <found|peek> <itemId> at <locationId>` or the
+ * 3-token global-undo shape `item remove last`, but the ~5-second command
+ * window can be forced to stop mid-utterance, so `hyp` may also be a
+ * truncated/partial sequence. Anything that isn't exactly one of those
+ * shapes, with both ids present in the known vocab, is treated as an invalid
+ * recognition.
  * @param {string} hyp
- * @returns {{ intent: 'found' | 'peek', itemId: string, locationId: string } | null}
+ * @returns {{ intent: 'found' | 'peek', itemId: string, locationId: string } | { intent: 'remove-last' } | null}
  */
 function parseCommandHyp(hyp) {
     const tokens = hyp.trim().split(/\s+/).filter(Boolean);
+
+    if(tokens.length === 3 && tokens[0] === 'item' && tokens[1] === 'remove' && tokens[2] === 'last') {
+        return { intent: INTENTS.REMOVE_LAST };
+    }
 
     if(tokens.length !== 5) {
         return null;

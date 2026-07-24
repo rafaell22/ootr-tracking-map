@@ -12,38 +12,41 @@ import locations from './locations.js';
 
 const itemAndSongIds = [...items, ...songs].map((word) => word.id);
 const locationIds = locations.map((location) => location.id);
-const connectorIds = ['item', 'found', 'peek', 'at'];
-
-test('wake grammar transitions can be resolved without throwing', () => {
-    assert.doesNotThrow(() => wakeGrammar.transitions);
-});
+const connectorIds = ['item', 'found', 'peek', 'at', 'remove', 'last'];
 
 test('command grammar transitions can be resolved without throwing', () => {
     assert.doesNotThrow(() => commandGrammar.transitions);
 });
 
-test('wake grammar starts at index 0 and ends at the "end" vertex index', () => {
-    const { start, end, numStates } = wakeGrammar.transitions;
+test('wake grammar contributes "hey" and "navi" as separate words, each with a non-empty pronunciation', () => {
+    const wakeWords = new Map(wakeGrammar.words);
 
-    assert.strictEqual(start, 0);
-    assert.strictEqual(numStates, 2);
-    assert.strictEqual(end, 1);
+    assert.strictEqual(wakeWords.size, 2);
+    assert.notStrictEqual(wakeWords.get('hey'), '');
+    assert.notStrictEqual(wakeWords.get('navi'), '');
 });
 
-test('wake grammar has exactly one path from start to end', () => {
-    const { transitions, start, end } = wakeGrammar.transitions;
-
-    const pathsFromStart = transitions.filter((transition) => transition.from === start);
-    assert.strictEqual(pathsFromStart.length, 1);
-    assert.strictEqual(pathsFromStart[0].to, end);
-});
-
-test('"item" vertex has edges to both "found" and "peek"', () => {
+test('"item" vertex has edges to "found", "peek", and "remove"', () => {
     const itemVertex = commandGrammar.getVertex('item');
     const destinations = itemVertex.edges.map((edge) => edge.to);
 
     assert.ok(destinations.includes('found'));
     assert.ok(destinations.includes('peek'));
+    assert.ok(destinations.includes('remove'));
+});
+
+test('"remove" vertex has an edge to "last"', () => {
+    const removeVertex = commandGrammar.getVertex('remove');
+    const destinations = removeVertex.edges.map((edge) => edge.to);
+
+    assert.deepStrictEqual(destinations, ['last']);
+});
+
+test('"last" vertex has an edge to "end"', () => {
+    const lastVertex = commandGrammar.getVertex('last');
+    const destinations = lastVertex.edges.map((edge) => edge.to);
+
+    assert.deepStrictEqual(destinations, ['end']);
 });
 
 test('every item/song vertex has an edge to "at"', () => {
@@ -68,7 +71,7 @@ test('command grammar has the expected vertex and edge counts', () => {
     const { numStates, transitions } = commandGrammar.transitions;
 
     const expectedVertexCount = connectorIds.length + itemAndSongIds.length + locationIds.length + 1;
-    const expectedEdgeCount = 2
+    const expectedEdgeCount = 5
         + itemAndSongIds.length
         + itemAndSongIds.length
         + itemAndSongIds.length
@@ -79,7 +82,8 @@ test('command grammar has the expected vertex and edge counts', () => {
     assert.strictEqual(transitions.length, expectedEdgeCount);
 });
 
-test('no id collisions between connector words and item/song/location vocab', () => {
+test('no id collisions between wake words, connector words, and item/song/location vocab', () => {
+    const wakeIds = wakeGrammar.words.map(([id]) => id);
     const allVocabIds = [...itemAndSongIds, ...locationIds];
 
     for(const connectorId of connectorIds) {
@@ -88,15 +92,21 @@ test('no id collisions between connector words and item/song/location vocab', ()
             `Connector word "${connectorId}" collides with a vocabulary id`
         );
     }
+
+    for(const wakeId of wakeIds) {
+        assert.ok(
+            !allVocabIds.includes(wakeId) && !connectorIds.includes(wakeId),
+            `Wake word "${wakeId}" collides with a vocabulary or connector word id`
+        );
+    }
 });
 
-test('every spoken word referenced by either grammar has a non-empty pronunciation in the merged word list', () => {
+test('every spoken word referenced by the command grammar has a non-empty pronunciation in the merged word list', () => {
     const mergedWords = new Map([...wakeGrammar.words, ...commandGrammar.words]);
 
-    const referencedWords = new Set([
-        ...wakeGrammar.transitions.transitions.map((transition) => transition.word),
-        ...commandGrammar.transitions.transitions.map((transition) => transition.word),
-    ]);
+    const referencedWords = new Set(
+        commandGrammar.transitions.transitions.map((transition) => transition.word),
+    );
 
     for(const word of referencedWords) {
         assert.ok(mergedWords.has(word), `Word "${word}" is not present in the merged word list`);

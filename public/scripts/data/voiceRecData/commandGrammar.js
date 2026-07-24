@@ -12,6 +12,8 @@ commandGrammar.addVertex('item', { pronunciation: 'AY T AH M' });
 commandGrammar.addVertex('found', { pronunciation: 'F AW N D' });
 commandGrammar.addVertex('peek', { pronunciation: 'P IY K' });
 commandGrammar.addVertex('at', { pronunciation: 'AE T' });
+commandGrammar.addVertex('remove', { pronunciation: 'R IH M UW V' });
+commandGrammar.addVertex('last', { pronunciation: 'L AE S T' });
 commandGrammar.addVertex('end', { pronunciation: '' });
 
 const itemsAndSongs = [...items, ...songs];
@@ -26,6 +28,9 @@ locations.forEach((location) => {
 
 commandGrammar.addEdge('item', 'found');
 commandGrammar.addEdge('item', 'peek');
+commandGrammar.addEdge('item', 'remove');
+commandGrammar.addEdge('remove', 'last');
+commandGrammar.addEdge('last', 'end');
 
 itemsAndSongs.forEach((word) => {
     commandGrammar.addEdge('found', word.id);

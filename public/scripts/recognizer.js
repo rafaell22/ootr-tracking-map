@@ -1,7 +1,9 @@
-import { alwaysHintsButtons } from '/data/alwaysHints.js';
+import { alwaysHintsButtons } from './data/alwaysHints.js';
 import pubSub from './classes/PubSub.js';
 import ItemFoundEvent from './classes/events/ItemFoundEvent.js';
 import ItemSelectedEvent from './classes/events/ItemSelectedEvent.js';
+import VoiceItemPlacedEvent from './classes/events/VoiceItemPlacedEvent.js';
+import itemInsertionHistory from './classes/ItemInsertionHistory.js';
 import { locationItems } from './data/locations.js';
 import { parseCommandHyp } from './voiceCommandParser.js';
 
@@ -17,7 +19,7 @@ let respawnInProgress = false;
  * @returns {Worker}
  */
 function createRecognizerWorker({ isReplacement }) {
-    const worker = new Worker('/scripts/workers/recognizerWorker.js');
+    const worker = new Worker(new URL('./workers/recognizerWorker.js', import.meta.url));
 
     worker.addEventListener('message', function(event) {
         handleWorkerMessage(worker, isReplacement, event);
@@ -25,7 +27,7 @@ function createRecognizerWorker({ isReplacement }) {
 
     worker.addEventListener('error', function(error) {
         console.error('Worker raised error!');
-        console.error(error);
+        console.error('message:', error.message, 'filename:', error.filename, 'lineno:', error.lineno, 'colno:', error.colno);
     });
 
     worker.postMessage({ eventType: 'LOAD_WASM' });
@@ -85,14 +87,37 @@ function handleCommandRecognized(eventData) {
         return;
     }
 
+    if(parsedCommand.intent === 'remove-last') {
+        const undone = itemInsertionHistory.undoLast();
+
+        if(undone) {
+            pubSub.publish('voice-command-result', {
+                success: true,
+                message: `Removed ${undone.itemName} from ${undone.locationName}`,
+            });
+        } else {
+            pubSub.publish('voice-command-result', {
+                success: false,
+                message: 'Nothing to undo',
+            });
+        }
+        return;
+    }
+
     const { intent, itemId, locationId } = parsedCommand;
     const itemName = getItemDisplayName(itemId);
-    const locationName = locationItems[locationId]?.name ?? locationId;
+    const location = locationItems[locationId];
+    const locationName = location?.name ?? locationId;
 
     if(intent === 'found') {
         pubSub.publish('item-found', new ItemFoundEvent(locationId, itemId, itemName));
     } else {
         pubSub.publish('item-selected', new ItemSelectedEvent(locationId, itemId, itemName));
+    }
+
+    const placedItem = location?.items[location.items.length - 1];
+    if(placedItem) {
+        pubSub.publish('voice-item-placed', new VoiceItemPlacedEvent(placedItem, itemName, locationId, locationName));
     }
 
     pubSub.publish('voice-command-result', {
