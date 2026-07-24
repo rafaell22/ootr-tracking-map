@@ -100,16 +100,16 @@ test('mergedVocabulary returns an empty list for no grammars', () => {
 
 test('isWakePhrase matches the real wake grammar phrase exactly', () => {
     const { sandbox } = loadWorkerSandbox();
-    const [wakePhraseId] = wakeGrammar.words[0];
+    const wakePhrase = wakeGrammar.words.map(([id]) => id).join(' ');
 
-    assert.strictEqual(sandbox.isWakePhrase(wakePhraseId), true);
+    assert.strictEqual(sandbox.isWakePhrase(wakePhrase), true);
 });
 
 test('isWakePhrase trims surrounding whitespace before comparing', () => {
     const { sandbox } = loadWorkerSandbox();
-    const [wakePhraseId] = wakeGrammar.words[0];
+    const wakePhrase = wakeGrammar.words.map(([id]) => id).join(' ');
 
-    assert.strictEqual(sandbox.isWakePhrase(`  ${wakePhraseId}  `), true);
+    assert.strictEqual(sandbox.isWakePhrase(`  ${wakePhrase}  `), true);
 });
 
 test('isWakePhrase rejects anything other than the wake phrase', () => {

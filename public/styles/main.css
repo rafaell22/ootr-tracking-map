@@ -503,26 +503,23 @@ body {
 .wake-cue {
   position: fixed;
   top: 0;
-  left: 50%;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 40;
-  width: 160px;
-  height: 8px;
-  border-radius: 0 0 8px 8px;
-  background-color: #0000ff;
+  pointer-events: none;
+  border: 6px solid #ff0000;
   animation: wake-cue-flash 0.6s ease-out;
 }
 
 @keyframes wake-cue-flash {
   0% {
     opacity: 0;
-    transform: translateX(-50%) scaleY(0.3);
   }
   40% {
     opacity: 1;
-    transform: translateX(-50%) scaleY(1);
   }
   100% {
     opacity: 0;
-    transform: translateX(-50%) scaleY(1);
   }
 }

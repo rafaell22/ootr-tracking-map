@@ -1,7 +1,7 @@
 import items from './items.js';
 import songs from './songs.js';
 import always from './always.js';
-import Grammar from '/scripts/classes/Grammar.js';
+import Grammar from '../../classes/Grammar.js';
 
 const grammar = [{
   id: 'always',

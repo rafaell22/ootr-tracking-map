@@ -17,7 +17,7 @@ export default [
         to: ['end'],
     }, {
         id: 'bombs',
-        pronunciation: 'B AA M Z',
+        pronunciation: 'B AA M B AE G',
         to: ['end'],
     }, {
         id: 'boomerang',

@@ -1,5 +1,13 @@
 const WAKE_PHRASE = 'hey navi';
 
+/**
+ * PocketSphinx keyword-spotting threshold for the wake phrase. Smaller
+ * (more-negative-exponent) values are more sensitive (more false accepts);
+ * larger values are less sensitive (more risk of missed detections). Starting
+ * point only — retune empirically per end-user microphone/room noise.
+ */
+const KWS_THRESHOLD = '1e-30';
+
 // One idle listening window before checking whether the wake phrase was
 // heard. Each PROCESS chunk carries ~4000 samples at AudioRecorder's 16kHz
 // output rate (~0.25s each); 6 chunks (~1.5s) comfortably covers "hey navi"
@@ -112,10 +120,10 @@ function loadWasm() {
             printErr: forwardWasmLogLine,
         };
 
-        importScripts('/scripts/wasm/pocketsphinx.js');
+        importScripts('../wasm/pocketsphinx.js');
 
         Module.locateFile = function() {
-            return '/scripts/wasm/pocketsphinx.wasm';
+            return '../wasm/pocketsphinx.wasm';
         }
 
         Module.onRuntimeInitialized = function(...a) {
@@ -135,7 +143,11 @@ function initializeRecognizer() {
     console.log('Initializing recognizer...')
     audioBuffer = new Module.AudioBuffer();
     segmentation = new Module.Segmentation();
-    recognizer = new Module.Recognizer();
+
+    const config = new Module.Config();
+    config.push_back(['-kws_threshold', KWS_THRESHOLD]);
+    recognizer = new Module.Recognizer(config);
+    config.delete();
 
     const words = new Module.VectorWords();
     for(const word of mergedVocabulary(wakeGrammar, commandGrammar)) {
@@ -148,8 +160,8 @@ function initializeRecognizer() {
         throw new Error(`Error adding words to recognizer: ${JSON.stringify(resultAddingWords)}`);
     }
 
-    console.log('Adding wake grammar...');
-    wakeSearchId = addGrammarToRecognizer(wakeGrammar);
+    console.log('Adding wake keyword...');
+    wakeSearchId = addKeywordToRecognizer(WAKE_PHRASE);
     console.log(`Wake search id: ${wakeSearchId}`);
     console.log('Adding command grammar...');
     commandSearchId = addGrammarToRecognizer(commandGrammar);
@@ -214,6 +226,27 @@ function addGrammarToRecognizer(grammar) {
     if(resultAddingGrammar !== Module.ReturnType.SUCCESS) {
         ids.delete();
         throw new Error('Error adding grammar to recognizer');
+    }
+
+    const searchId = ids.get(0);
+    ids.delete();
+    return searchId;
+}
+
+/**
+ * Registers a keyphrase on the shared `recognizer`'s keyword-spotting search
+ * and returns the real search id it was assigned, mirroring
+ * `addGrammarToRecognizer`'s shape for the FSG path.
+ * @param {string} phrase
+ * @returns {number}
+ */
+function addKeywordToRecognizer(phrase) {
+    const ids = new Module.Integers();
+    const resultAddingKeyword = recognizer.addKeyword(ids, phrase);
+
+    if(resultAddingKeyword !== Module.ReturnType.SUCCESS) {
+        ids.delete();
+        throw new Error('Error adding keyword to recognizer');
     }
 
     const searchId = ids.get(0);

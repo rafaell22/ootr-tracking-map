@@ -10,7 +10,7 @@ window.AudioRecorder = class AudioRecorder {
     this.audioSource.connect(this.node);
     this.node.connect(this.context.destination);
 
-    this.worker = new Worker('/scripts/workers/audioRecorderWorker.js');
+    this.worker = new Worker(new URL('./workers/audioRecorderWorker.js', import.meta.url));
     this.initWorker();
 
     this.recording = false;

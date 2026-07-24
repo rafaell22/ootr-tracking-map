@@ -2,6 +2,8 @@ import { app, BrowserWindow, session } from 'electron/main';
 
 let win;
 
+const devToolsEnabled = process.argv.includes('--devtools');
+
 const createWindow = () => {
   win = new BrowserWindow({
     width: 1100,
@@ -9,13 +11,15 @@ const createWindow = () => {
     title: 'Logic Tracker',
     backgroundColor: "#aaa",
     webPreferences: {
-      devTools: false,
+      devTools: true,
       backgroundThrottling: false,
       contextIsolation: true,
     }
   });
 
-  //win.webContents.openDevTools();
+  if (devToolsEnabled) {
+    win.webContents.openDevTools();
+  }
 
   win.loadFile('./public/index.html');
   win.setBackgroundColor('#aaa')

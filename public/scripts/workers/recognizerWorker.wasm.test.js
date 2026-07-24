@@ -55,7 +55,7 @@ function createWorkerSandbox() {
     sandbox.self.__grammarsForTest = { wakeGrammar, commandGrammar };
 
     sandbox.importScripts = (url) => {
-        if(url !== '/scripts/wasm/pocketsphinx.js') {
+        if(url !== '../wasm/pocketsphinx.js') {
             throw new Error(`Unexpected importScripts url in test harness: ${url}`);
         }
         const glueSource = fs.readFileSync(pocketsphinxJsPath, 'utf8');
@@ -93,7 +93,7 @@ async function bootstrapRealWasm(sandbox) {
             // wasm-loading path, which this sandbox doesn't implement.
             wasmBinary: fs.readFileSync(pocketsphinxWasmPath),
         };
-        sandbox.importScripts('/scripts/wasm/pocketsphinx.js');
+        sandbox.importScripts('../wasm/pocketsphinx.js');
         sandbox.Module.locateFile = () => pocketsphinxWasmPath;
         sandbox.Module.onAbort = (reason) => reject(new Error(`wasm onAbort: ${reason}`));
         sandbox.Module.onRuntimeInitialized = () => resolve(undefined);
@@ -145,6 +145,46 @@ test('a full BEGIN_SESSION -> idle cycle over real audio completes without error
         assert.doesNotThrow(() => dispatchMessage({ eventType: 'PROCESS', data: silentNoiseChunk(chunk) }));
     }
     assert.deepStrictEqual(messagesOfType('ERROR'), []);
+    assert.deepStrictEqual(
+        messagesOfType('WAKE_DETECTED'),
+        [],
+        'the keyword-spotting wake search must not force-fit synthetic noise onto the wake phrase'
+    );
+});
+
+/**
+ * `recognizer` is a top-level `let` binding in `recognizerWorker.js`, so
+ * (unlike its top-level `function` declarations) it isn't reachable as a
+ * plain sandbox property — reach it via a script run in the same vm context
+ * instead, the same technique `bootstrapRealWasm` uses to inject the real
+ * grammars into the sandbox's `let wakeGrammar`/`commandGrammar` bindings.
+ * @param {Record<string, any>} sandbox
+ * @param {string} expression
+ */
+function evalInWorkerScope(sandbox, expression) {
+    return vm.runInContext(expression, sandbox, { filename: 'eval-in-worker-scope.js' });
+}
+
+test('the wake keyword-spotting search itself yields a blank hypothesis over several cycles of synthetic noise', async () => {
+    const { sandbox } = createWorkerSandbox();
+    await bootstrapRealWasm(sandbox);
+    sandbox.initializeRecognizer();
+
+    for(let cycle = 0; cycle < 4; cycle++) {
+        sandbox.switchToWakeSearch();
+        assert.strictEqual(evalInWorkerScope(sandbox, 'recognizer.start()'), sandbox.Module.ReturnType.SUCCESS);
+
+        for(let chunk = 0; chunk < 6; chunk++) {
+            sandbox.pushAudioChunkToRecognizer(silentNoiseChunk(cycle * 6 + chunk));
+        }
+
+        assert.strictEqual(evalInWorkerScope(sandbox, 'recognizer.stop()'), sandbox.Module.ReturnType.SUCCESS);
+        assert.strictEqual(
+            evalInWorkerScope(sandbox, 'recognizer.getHyp()').trim(),
+            '',
+            `KWS search spotted the wake phrase in synthetic noise on cycle ${cycle}`
+        );
+    }
 });
 
 test('a detected wake phrase posts WAKE_DETECTED, enters the command window, and a real stop/switch/start command-window-timeout cycle resolves back to idle', async () => {
