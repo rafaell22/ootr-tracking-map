@@ -1,4 +1,7 @@
 export default {
+  "name": "Escape from Kak",
+  "showMap": true,
+  "enableVoice": true,
   "backgroundColor": "#888",
   "width": "326px",
   "grid": [{

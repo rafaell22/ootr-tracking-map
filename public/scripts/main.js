@@ -9,8 +9,9 @@ import { addLocations } from './data/locations.js';
 //import { addHints } from './data/alwaysHints.js';
 //import { addMeds } from './data/meds.js';
 //import { addSongs } from './data/songs.js';
-import layout from './data/layouts/scrubsS7.js';
-//import layout from './data/layouts/escapeFromKak.js';
+import layoutManifest from './data/layouts/index.js';
+import { getStoredLayoutId, storeLayoutId, resolvePreselectedLayoutId } from './layoutStorage.js';
+import LayoutSelector from './classes/LayoutSelector.js';
 import {addSometimesHints} from './data/sometimesHints.js';
 import ToggleableItem from './classes/ToggleableItem.js';
 import ProgressiveItem from './classes/ProgressiveItem.js';
@@ -129,15 +130,28 @@ const createGridElement = (parent, gridEl) => {
 };
 
 
-if(layout.backgroundColor) {
-  itemsContainer.style.backgroundColor = layout.backgroundColor;
-}
+/**
+  * @param {Object} layout
+  */
+const buildItemsSidebar = (layout) => {
+  if(layout.backgroundColor) {
+    itemsContainer.style.backgroundColor = layout.backgroundColor;
+  }
 
-if(layout.width) {
-  itemsContainer.style.width = layout.width;
-}
+  if(layout.width) {
+    itemsContainer.style.width = layout.width;
+  }
 
-layout.grid.forEach(gridEl => {
-  createGridElement(itemsContainer, gridEl); 
-});
+  layout.grid.forEach(gridEl => {
+    createGridElement(itemsContainer, gridEl);
+  });
+};
+
+const layoutSelector = new LayoutSelector(domUtils.el('#layout-dialog'));
+const storedLayoutId = getStoredLayoutId();
+const preselectedLayoutId = resolvePreselectedLayoutId(layoutManifest, storedLayoutId);
+const chosenLayoutEntry = await layoutSelector.pickLayout(layoutManifest, preselectedLayoutId);
+storeLayoutId(chosenLayoutEntry.id);
+const { default: layout } = await chosenLayoutEntry.loadModule();
+buildItemsSidebar(layout);
 

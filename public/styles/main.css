@@ -84,6 +84,35 @@ body {
   border: 2px solid #fff;
 }
 
+#layout-dialog {
+  z-index: 40;
+  padding: 15px;
+  background-color: #ddd;
+  border-radius: 5px;
+  border: 1px solid #333;
+}
+
+#layout-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#layout-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+#layout-options .layout-option {
+  padding: 5px;
+  background-color: #eee;
+  border-radius: 5px;
+  border: 1px solid #333;
+}
+
+#layout-options .layout-option.selected {
+  border: 2px solid #333;
+}
+
 .item {
   width: 32px;
   height: 32px;

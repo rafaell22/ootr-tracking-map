@@ -1,4 +1,7 @@
 export default {
+  "name": "Scrubs S7",
+  "showMap": true,
+  "enableVoice": true,
   "backgroundColor": "#888",
   "width": "326px",
   "grid": [{

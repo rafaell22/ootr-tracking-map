@@ -3,10 +3,15 @@ const WAKE_PHRASE = 'hey navi';
 /**
  * PocketSphinx keyword-spotting threshold for the wake phrase. Smaller
  * (more-negative-exponent) values are more sensitive (more false accepts);
- * larger values are less sensitive (more risk of missed detections). Starting
- * point only — retune empirically per end-user microphone/room noise.
+ * larger values are less sensitive (more risk of missed detections).
  */
-const KWS_THRESHOLD = '1e-30';
+const KWS_THRESHOLD = '1e-45';
+
+/**
+ * Minimum peak sample amplitude (of a possible 32767) an idle window must
+ * contain for a KWS "hey navi" hit to be accepted.
+ */
+const WAKE_MIN_PEAK_AMPLITUDE = 5000;
 
 // One idle listening window before checking whether the wake phrase was
 // heard. Each PROCESS chunk carries ~4000 samples at AudioRecorder's 16kHz
@@ -41,13 +46,12 @@ let commandSearchId;
 
 let sessionState = SESSION_STATE.STOPPED;
 let idleChunkCount = 0;
+let idleWindowPeakAmplitude = 0;
 let sessionStartTime = null;
 let respawnAlreadyReported = false;
 let commandWindowTimeoutId = null;
 
 self.addEventListener('message', async function(event) {
-    console.log('Message from main...');
-    console.log(event);
     const { eventType, data } = event.data;
 
     switch(eventType) {
@@ -265,6 +269,7 @@ function beginSession() {
     sessionStartTime = Date.now();
     respawnAlreadyReported = false;
     idleChunkCount = 0;
+    idleWindowPeakAmplitude = 0;
 
     switchToWakeSearch();
     assertSuccess(recognizer.start(), 'Error starting recognizer at session begin');
@@ -280,6 +285,7 @@ function handleAudioChunk(arrayBuffer) {
 
     if(sessionState === SESSION_STATE.IDLE) {
         idleChunkCount += 1;
+        idleWindowPeakAmplitude = Math.max(idleWindowPeakAmplitude, peakAmplitude(arrayBuffer));
         if(idleChunkCount >= IDLE_CYCLE_CHUNK_COUNT) {
             completeIdleCycle();
         }
@@ -298,6 +304,17 @@ function pushAudioChunkToRecognizer(arrayBuffer) {
     assertSuccess(recognizer.process(audioBuffer), 'Error processing audio buffer');
 }
 
+function peakAmplitude(arrayBuffer) {
+    let peak = 0;
+    for(let i = 0; i < arrayBuffer.length; i++) {
+        const abs = Math.abs(arrayBuffer[i]);
+        if(abs > peak) {
+            peak = abs;
+        }
+    }
+    return peak;
+}
+
 /**
  * Ends the current idle listening window (per fact: every grammar switch
  * must be preceded by stop()), checks whether the wake phrase was heard, and
@@ -307,8 +324,10 @@ function completeIdleCycle() {
     idleChunkCount = 0;
     assertSuccess(recognizer.stop(), 'Error stopping recognizer at end of idle cycle');
     const hyp = Utf8Decode(recognizer.getHyp());
+    const peak = idleWindowPeakAmplitude;
+    idleWindowPeakAmplitude = 0;
 
-    if(isWakePhrase(hyp)) {
+    if(isWakePhrase(hyp) && peak >= WAKE_MIN_PEAK_AMPLITUDE) {
         handleWakeDetected();
         return;
     }

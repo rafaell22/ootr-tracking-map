@@ -36,8 +36,6 @@ function createRecognizerWorker({ isReplacement }) {
 }
 
 function handleWorkerMessage(worker, isReplacement, event) {
-    console.log('Message from recognizerWorker...');
-    console.log(event);
     const { eventType, eventData } = event.data;
 
     switch(eventType) {
