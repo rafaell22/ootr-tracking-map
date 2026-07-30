@@ -1,7 +1,7 @@
 export default [
     {
         id: 'bolero',
-        pronunciation: 'B OW L EH R OW'
+        pronunciation: 'B OW L EH R OW AH V F AY ER'
     },
     {
         id: 'epona',
@@ -9,19 +9,19 @@ export default [
     },
     {
         id: 'minuet',
-        pronunciation: 'M IH N Y UW EH T'
+        pronunciation: 'M IH N Y UW EH T AH V F AO R AH S T'
     },
     {
         id: 'nocturne',
-        pronunciation: 'N AA K T ER N'
+        pronunciation: 'N AA K T ER N AH V SH AE D OW Z'
     },
     {
         id: 'prelude',
-        pronunciation: 'P R EH L UW D'
+        pronunciation: 'P R EH L UW D AH V L AY T'
     },
     {
         id: 'requiem',
-        pronunciation: 'R EH K W IY AH M'
+        pronunciation: 'R EH K W IY AH M AH V S P IH R AH T S'
     },
     {
         id: 'saria',
@@ -29,7 +29,7 @@ export default [
     },
     {
         id: 'serenade',
-        pronunciation: 'S EH R AH N EY D'
+        pronunciation: 'S EH R AH N EY D AH V W AO T ER'
     },
     {
         id: 'song-of-storms',

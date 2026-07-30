@@ -19,7 +19,7 @@ const medLocations = [
 ];
 
 export default class Med extends Fsm {
-  constructor(medId, name) {
+  constructor(medId, name, isFound = false, location) {
     super([
       { name: 'addMed', from: ['notAcquired', 'acquirable'], to: 'acquired' },
       { name: 'removeMed', from: 'acquired', to: 'notAcquired' },
@@ -36,12 +36,13 @@ export default class Med extends Fsm {
       }).bind(this),
       onMarkCompletable: this.addBorder.bind(this),
     };
-    this.medLocationIndex = 7;
+    this.medLocationIndex = ((isFound && location) ? medLocations.findIndex(med => med === location) : 7);
     this.medId = medId;
     this.name = name;
     this.img = document.createElement('img');
     this.img.title = this.name;
     this.location = document.createElement('span');
+    this.location.textContent = medLocations[this.medLocationIndex];
     this.container = document.createElement('div');
     this.container.classList.add('med')
     this.container.append(this.img);
@@ -51,8 +52,11 @@ export default class Med extends Fsm {
 
     this.addMedListenerId = inputManager.subscribe('click', this.onClick.bind(this));
 
-
     this.img.addEventListener('wheel', this.changeMedLocation.bind(this))
+
+    if(isFound) {
+      this.addMed();
+    }
   }
 
   onClick(clickEvent) {

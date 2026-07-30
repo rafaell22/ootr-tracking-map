@@ -43,9 +43,9 @@ window.AudioRecorder = class AudioRecorder {
       e.data.eventType === 'NEW_BUFFER' &&
       this.recording
     ) {
-      this.consumers.forEach((consumer, y, z) => {
-        consumer.postMessage({ 
-          eventType: 'PROCESS', 
+      this.consumers.forEach((consumer) => {
+        consumer.postMessage({
+          eventType: 'PROCESS',
           data: e.data.data
         });
 		  });
@@ -79,8 +79,8 @@ window.AudioRecorder = class AudioRecorder {
   }
 
   start(data) {
-    this.consumers.forEach((consumer, y, z) => {
-      consumer.postMessage({ 
+    this.consumers.forEach((consumer) => {
+      consumer.postMessage({
         eventType: 'START_RECORDING', 
         data: data 
       });

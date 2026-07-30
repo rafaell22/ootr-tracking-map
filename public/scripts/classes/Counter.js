@@ -30,4 +30,11 @@ export default class Counter {
   appendTo(container) {
     return container.append(this.el);
   }
+
+  /**
+   * @returns {HTMLElement}
+   */
+  el() {
+    return this.el;
+  }
 }

@@ -1,5 +1,5 @@
 export default {
-  "name": "Scrubs S7",
+  "name": "Spoiler Log - Scrubs",
   "showMap": true,
   "enableVoice": true,
   "backgroundColor": "#888",
@@ -359,32 +359,8 @@ export default {
       "marginRight": "10px",
       "content": [{
         "type": "DISPLAY",
-        "id": "great-fairy",
-        "name": "Great Fairy"
-      }, {
-        "type": "UNKNOWN"
-      }, {
-        "type": "UNKNOWN"
-      }]
-    }, {
-      "type": "COLUMN",
-      "marginRight": "10px",
-      "content": [{
-        "type": "DISPLAY",
         "id": "skull-mask",
         "name": "Skull Mask"
-      }, {
-        "type": "UNKNOWN"
-      }]
-    }, {
-      "type": "COLUMN",
-      "marginRight": "8px",
-      "content": [{
-        "type": "DISPLAY",
-        "id": "ice-cavern",
-        "name": "Ice Cavern"
-      }, {
-        "type": "UNKNOWN"
       }, {
         "type": "UNKNOWN"
       }]
@@ -404,28 +380,6 @@ export default {
       }, {
         "type": "UNKNOWN"
       }]
-    }, {
-      "type": "COLUMN",
-      "marginRight": "10px",
-      "content": [{
-        "type": "DISPLAY",
-        "id": "skulltulas",
-        "name": "Gold Skulltulas"
-      }, {
-        "type": "UNKNOWN"
-      }, {
-        "type": "UNKNOWN"
-      }]
-    }, {
-      "type": "COLUMN",
-      "marginRight": "8px",
-      "content": [{
-        "type": "DISPLAY",
-        "id": "bottle-big-poe",
-        "name": "Big Poes"
-      }, {
-        "type": "UNKNOWN"
-      }]
     }]
   }, {
     "type": "ROW",
@@ -436,7 +390,8 @@ export default {
       "content": [{
         "type": "REWARD",
         "id": "kokiri-emerald",
-        "name": "Kokiri Emerald"
+        "name": "Kokiri Emerald",
+        "isFound": true,
       }, {
         "type": "REWARD",
         "id": "goron-ruby",
@@ -452,7 +407,9 @@ export default {
       "content": [{
         "type": "REWARD",
         "id": "light-med",
-        "name": "Light Med"
+        "name": "Light Med",
+        "isFound": true,
+        "location": 'pocket'
       }, {
         "type": "REWARD",
         "id": "forest-med",
@@ -475,16 +432,16 @@ export default {
         "name": "Spirit Med"
       }]
     }]
-  }, {
+  }, , {
     "type": "ROW",
     "content": [{
       "type": "COLUMN",
       "content": [{
-        "type": "UNKNOWN"
+        "type": "COUNTER",
+        "marginRight": "14px"
       }, {
-        "type": "UNKNOWN"
-      }, {
-        "type": "TEXTHINT"
+        "type": "TEXTLOCATION",
+        "value": "Hyrule Castle Area"
       }]
     }]
   }, {
@@ -492,11 +449,11 @@ export default {
     "content": [{
       "type": "COLUMN",
       "content": [{
-        "type": "UNKNOWN"
+        "type": "COUNTER",
+        "marginRight": "14px"
       }, {
-        "type": "UNKNOWN"
-      }, {
-        "type": "TEXTHINT"
+        "type": "TEXTLOCATION",
+        "value": "Hylian Field"
       }]
     }]
   }, {
@@ -504,9 +461,11 @@ export default {
     "content": [{
       "type": "COLUMN",
       "content": [{
-        "type": "UNKNOWN"
+        "type": "COUNTER",
+        "marginRight": "14px"
       }, {
-        "type": "TEXTHINT"
+        "type": "TEXTLOCATION",
+        "value": "Zora Area"
       }]
     }]
   }, {
@@ -514,9 +473,11 @@ export default {
     "content": [{
       "type": "COLUMN",
       "content": [{
-        "type": "UNKNOWN"
+        "type": "COUNTER",
+        "marginRight": "14px"
       }, {
-        "type": "TEXTHINT"
+        "type": "TEXTLOCATION",
+        "value": "Lost Wood Area"
       }]
     }]
   }, {
@@ -524,9 +485,11 @@ export default {
     "content": [{
       "type": "COLUMN",
       "content": [{
-        "type": "UNKNOWN"
+        "type": "COUNTER",
+        "marginRight": "14px"
       }, {
-        "type": "TEXTHINT"
+        "type": "TEXTLOCATION",
+        "value": "Kakariko Area"
       }]
     }]
   }, {
@@ -534,9 +497,11 @@ export default {
     "content": [{
       "type": "COLUMN",
       "content": [{
-        "type": "UNKNOWN"
+        "type": "COUNTER",
+        "marginRight": "14px"
       }, {
-        "type": "TEXTHINT"
+        "type": "TEXTLOCATION",
+        "value": "Death Mountain Area"
       }]
     }]
   }, {
@@ -544,9 +509,11 @@ export default {
     "content": [{
       "type": "COLUMN",
       "content": [{
-        "type": "UNKNOWN"
+        "type": "COUNTER",
+        "marginRight": "14px"
       }, {
-        "type": "TEXTHINT"
+        "type": "TEXTLOCATION",
+        "value": "Gerudo Area"
       }]
     }]
   }, {

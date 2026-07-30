@@ -6,9 +6,27 @@ import VoiceItemPlacedEvent from './classes/events/VoiceItemPlacedEvent.js';
 import itemInsertionHistory from './classes/ItemInsertionHistory.js';
 import { locationItems } from './data/locations.js';
 import { parseCommandHyp } from './voiceCommandParser.js';
+import { reportVoiceControlFailure } from './voiceControlBridge.js';
 
 let recorder;
 let respawnInProgress = false;
+let audioContext = null;
+let mediaStream = null;
+const activeWorkers = new Set();
+
+/**
+ * A replacement worker only counts once `swapToReplacementWorker` makes it
+ * the recorder's sole consumer — its errors before that point don't affect
+ * the live session.
+ * @type {Worker | null}
+ */
+let primaryWorker = null;
+
+/**
+ * A worker's `error` DOM event and a posted `{eventType: 'ERROR'}` message
+ * can both fire for the same underlying failure.
+ */
+let failureHandled = false;
 
 /**
  * Creates a `recognizerWorker` and wires its message handling. Used both for
@@ -20,6 +38,7 @@ let respawnInProgress = false;
  */
 function createRecognizerWorker({ isReplacement }) {
     const worker = new Worker(new URL('./workers/recognizerWorker.js', import.meta.url));
+    activeWorkers.add(worker);
 
     worker.addEventListener('message', function(event) {
         handleWorkerMessage(worker, isReplacement, event);
@@ -28,11 +47,33 @@ function createRecognizerWorker({ isReplacement }) {
     worker.addEventListener('error', function(error) {
         console.error('Worker raised error!');
         console.error('message:', error.message, 'filename:', error.filename, 'lineno:', error.lineno, 'colno:', error.colno);
+        if(worker === primaryWorker) {
+            handleLazyInitFailure(`Voice control failed to start: ${error.message}`);
+        }
     });
 
     worker.postMessage({ eventType: 'LOAD_WASM' });
 
     return worker;
+}
+
+/**
+ * Reverts a failed lazy-init attempt (mic permission denial, WASM load
+ * failure, or recognizer init failure) back to a clean "off" state: tears
+ * down whatever partial state was built, asks the main process to uncheck
+ * the "Enable Voice Commands" menu item, and surfaces the failure through the
+ * existing toast/pubSub pattern.
+ * @param {string} message
+ */
+function handleLazyInitFailure(message) {
+    if(failureHandled) {
+        return;
+    }
+    failureHandled = true;
+
+    stopVoiceControl();
+    reportVoiceControlFailure();
+    pubSub.publish('voice-command-result', { success: false, message });
 }
 
 function handleWorkerMessage(worker, isReplacement, event) {
@@ -65,6 +106,9 @@ function handleWorkerMessage(worker, isReplacement, event) {
         case 'ERROR':
             console.error('Error in recognizerWorker!')
             console.error(eventData);
+            if(worker === primaryWorker) {
+                handleLazyInitFailure(`Voice control failed to start: ${eventData}`);
+            }
             break;
         default:
             console.log(`Event from Worker ${eventType} not recognized`);
@@ -154,10 +198,16 @@ function beginBootstrapSession(worker) {
         return;
     }
 
-    const audioContext = new AudioContext();
+    audioContext = new AudioContext();
     navigator.mediaDevices
         .getUserMedia({ audio: true })
         .then((stream) => {
+            if(worker !== primaryWorker) {
+                stream.getTracks().forEach((track) => track.stop());
+                return;
+            }
+
+            mediaStream = stream;
             const input = audioContext.createMediaStreamSource(stream);
             window.firefox_audio_hack = input;
 
@@ -171,6 +221,7 @@ function beginBootstrapSession(worker) {
         .catch((e) => {
             console.log('No live audio input');
             console.log(e);
+            handleLazyInitFailure(`Voice control needs microphone access: ${e.message}`);
         });
 }
 
@@ -190,10 +241,12 @@ function swapToReplacementWorker(worker) {
 
     const previousWorker = recorder.consumers[0];
     recorder.consumers = [worker];
+    primaryWorker = worker;
     worker.postMessage({ eventType: 'BEGIN_SESSION' });
 
     if(previousWorker) {
         previousWorker.terminate();
+        activeWorkers.delete(previousWorker);
     }
 
     respawnInProgress = false;
@@ -221,7 +274,40 @@ function respawnRecognizerWorker() {
  * Creates the initial recognizer worker and starts the load/init handshake.
  */
 function startVoiceControl() {
-    createRecognizerWorker({ isReplacement: false });
+    failureHandled = false;
+    primaryWorker = createRecognizerWorker({ isReplacement: false });
 }
 
-export { recorder, startVoiceControl };
+/**
+ * Tears down an active (or partially-bootstrapped) voice-control session:
+ * stops mic capture, releases the mic stream tracks and `AudioContext`, and
+ * terminates every live recognizer worker (the current one and, if a
+ * respawn was in flight, its already-created replacement) so no further
+ * worker message — including a stray `RESPAWN_DUE` — can fire afterwards.
+ * Safe to call even if voice control was never started.
+ */
+function stopVoiceControl() {
+    if(recorder) {
+        recorder.stop();
+        recorder.stopCapturing();
+        recorder = null;
+    }
+
+    if(mediaStream) {
+        mediaStream.getTracks().forEach((track) => track.stop());
+        mediaStream = null;
+    }
+
+    if(audioContext) {
+        audioContext.close();
+        audioContext = null;
+    }
+
+    activeWorkers.forEach((worker) => worker.terminate());
+    activeWorkers.clear();
+
+    respawnInProgress = false;
+    primaryWorker = null;
+}
+
+export { recorder, startVoiceControl, stopVoiceControl };

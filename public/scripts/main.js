@@ -6,9 +6,6 @@ import ContextMenu from './classes/ContextMenu.js';
 import pubSub from './classes/PubSub.js';
 
 import { addLocations } from './data/locations.js';
-//import { addHints } from './data/alwaysHints.js';
-//import { addMeds } from './data/meds.js';
-//import { addSongs } from './data/songs.js';
 import layoutManifest from './data/layouts/index.js';
 import { getStoredLayoutId, storeLayoutId, resolvePreselectedLayoutId } from './layoutStorage.js';
 import LayoutSelector from './classes/LayoutSelector.js';
@@ -16,7 +13,8 @@ import {addSometimesHints} from './data/sometimesHints.js';
 import ToggleableItem from './classes/ToggleableItem.js';
 import ProgressiveItem from './classes/ProgressiveItem.js';
 //import './trainingMode.js';
-import { startVoiceControl } from './recognizer.js';
+import { startVoiceControl, stopVoiceControl } from './recognizer.js';
+import { onVoiceControlToggle } from './voiceControlBridge.js';
 import VoiceFeedback from './classes/VoiceFeedback.js';
 import './classes/DragAndDropManager.js';
 import DisplayItem from './classes/DisplayItem.js';
@@ -59,15 +57,17 @@ game.mainloop.start();
 new SelectItems(domUtils.el('#select-items'));
 new ContextMenu(domUtils.el('#context-menu'));
 addLocations();
-//addHints();
-//addMeds();
-//addSongs();
 addSometimesHints();
 
 new VoiceFeedback();
-startVoiceControl();
+onVoiceControlToggle((enabled) => {
+  if(enabled) {
+    startVoiceControl();
+  } else {
+    stopVoiceControl();
+  }
+});
 
-// Testing new classes
 const itemsContainer = document.querySelector('#items');
 
 const createGridElement = (parent, gridEl) => {
@@ -108,7 +108,7 @@ const createGridElement = (parent, gridEl) => {
       unknownItem.appendTo(parent);
       break;
     case 'REWARD':
-      const rewardItem = new Med(gridEl.id, gridEl.name);
+      const rewardItem = new Med(gridEl.id, gridEl.name, gridEl.isFound, gridEl.location);
       rewardItem.appendTo(parent);
       break;
     case 'TEXTHINT':
@@ -120,11 +120,15 @@ const createGridElement = (parent, gridEl) => {
       text.appendTo(parent);
       break;
     case 'TEXTLOCATION':
-      const textLocation = new TextLocation();
+      const textLocation = new TextLocation(gridEl.value);
       textLocation.appendTo(parent);
       break;
     case 'COUNTER':
       const counter = new Counter(gridEl.name, gridEl.value);
+      console.log(counter)
+      if(gridEl.marginRight) {
+        counter.el.style.marginRight = gridEl.marginRight;
+      }
       counter.appendTo(parent);
   }
 };

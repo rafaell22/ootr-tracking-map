@@ -1,5 +1,5 @@
 export default {
-  "name": "Scrubs S7",
+  "name": "Mentor Tourney S1",
   "showMap": true,
   "enableVoice": true,
   "backgroundColor": "#888",
@@ -57,7 +57,7 @@ export default {
         {
           "id": "biggoron-sword",
           "name": "Biggoron Sword",
-          "type": "TOGGLEABLE"
+          "type": "DISPLAY"
         }
       ]
     }]
@@ -96,7 +96,7 @@ export default {
         {
           "id": "farores-wind",
           "name": "Farore\'s Wind",
-          "type": "DISPLAY"
+          "type": "TOGGLEABLE"
         },
       ]
     }, {
@@ -110,7 +110,7 @@ export default {
         {
           "id": "hylian-shield",
           "name": "Hylian Shield",
-          "type": "DISPLAY"
+          "type": "TOGGLEABLE"
         },
         {
           "id": "mirror-shield",
@@ -133,7 +133,7 @@ export default {
         {
           "id": "lens",
           "name": "Lens of Truth",
-          "type": "DISPLAY"
+          "type": "TOGGLEABLE"
         },
         {
           "id": "beans",
@@ -190,7 +190,7 @@ export default {
         {
           "id": "bottle-empty",
           "name": "Bottle",
-          "type": "DISPLAY"
+          "type": "TOGGLEABLE"
         },
         {
           "id": "bottle-empty",
@@ -327,7 +327,7 @@ export default {
         {
           "id": "prelude",
           "name": "Prelude",
-          "type": "DISPLAY"
+          "type": "TOGGLEABLE"
         },
       ]
     }, {
@@ -376,20 +376,7 @@ export default {
       }, {
         "type": "UNKNOWN"
       }]
-    }, {
-      "type": "COLUMN",
-      "marginRight": "8px",
-      "content": [{
-        "type": "DISPLAY",
-        "id": "ice-cavern",
-        "name": "Ice Cavern"
-      }, {
-        "type": "UNKNOWN"
-      }, {
-        "type": "UNKNOWN"
-      }]
-    }]
-  }, {
+    }]}, {
     "type": "ROW",
     "marginBottom": "8px",
     "content": [{
@@ -399,8 +386,6 @@ export default {
         "type": "DISPLAY",
         "id": "frogs",
         "name": "Frogs"
-      }, {
-        "type": "UNKNOWN"
       }, {
         "type": "UNKNOWN"
       }]
@@ -413,16 +398,6 @@ export default {
         "name": "Gold Skulltulas"
       }, {
         "type": "UNKNOWN"
-      }, {
-        "type": "UNKNOWN"
-      }]
-    }, {
-      "type": "COLUMN",
-      "marginRight": "8px",
-      "content": [{
-        "type": "DISPLAY",
-        "id": "bottle-big-poe",
-        "name": "Big Poes"
       }, {
         "type": "UNKNOWN"
       }]

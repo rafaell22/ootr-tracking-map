@@ -359,32 +359,8 @@ export default {
       "marginRight": "10px",
       "content": [{
         "type": "DISPLAY",
-        "id": "great-fairy",
-        "name": "Great Fairy"
-      }, {
-        "type": "UNKNOWN"
-      }, {
-        "type": "UNKNOWN"
-      }]
-    }, {
-      "type": "COLUMN",
-      "marginRight": "10px",
-      "content": [{
-        "type": "DISPLAY",
         "id": "skull-mask",
         "name": "Skull Mask"
-      }, {
-        "type": "UNKNOWN"
-      }]
-    }, {
-      "type": "COLUMN",
-      "marginRight": "8px",
-      "content": [{
-        "type": "DISPLAY",
-        "id": "ice-cavern",
-        "name": "Ice Cavern"
-      }, {
-        "type": "UNKNOWN"
       }, {
         "type": "UNKNOWN"
       }]
@@ -436,11 +412,13 @@ export default {
       "content": [{
         "type": "REWARD",
         "id": "kokiri-emerald",
-        "name": "Kokiri Emerald"
+        "name": "Kokiri Emerald",
+        "isFound": true
       }, {
         "type": "REWARD",
         "id": "goron-ruby",
-        "name": "Goron Ruby"
+        "name": "Goron Ruby",
+        "isFound": true
       }, {
         "type": "REWARD",
         "id": "zora-sapphire",

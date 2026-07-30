@@ -17,7 +17,7 @@ export default [
         to: ['end'],
     }, {
         id: 'bombs',
-        pronunciation: 'B AA M B AE G',
+        pronunciation: 'B OW M B AE G',
         to: ['end'],
     }, {
         id: 'boomerang',
@@ -29,7 +29,7 @@ export default [
         to: ['end'],
     }, {
         id: 'bow',
-        pronunciation: 'B OW',
+        pronunciation: 'B OW K W IH V ER',
         to: ['end'],
     }, {
         id: 'claim-check',
@@ -49,7 +49,7 @@ export default [
         to: ['end'],
     }, {
         id: 'goron-tunic',
-        pronunciation: 'G AO R AA N T UW N IH K',
+        pronunciation: 'G AA R AA N T UW N IH K',
         to: ['end'],
     }, {
         id: 'hammer',
@@ -61,7 +61,7 @@ export default [
         to: ['end'],
     }, {
         id: 'hover-boots',
-        pronunciation: 'HH AH V ER B UW T S',
+        pronunciation: 'HH AH V ER S',
         to: ['end'],
     }, {
         id: 'ice-arrows',

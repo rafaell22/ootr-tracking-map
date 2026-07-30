@@ -77,7 +77,8 @@ export default [
   },
   {
     id: 'bottom-of-the-well',
-    pronunciation: 'B AA T AH M AH V DH AH W EH L'
+    //pronunciation: 'B AO T AH M AH V DH AH W EH L'
+    pronunciation: 'W EH L'
   },
   {
     id: 'graveyard',
@@ -89,15 +90,15 @@ export default [
   },
   {
     id: 'zora-river',
-    pronunciation: 'Z AA R AH Z R IH V ER'
+    pronunciation: 'Z AO R AH Z R IH V ER'
   },
   {
     id: 'zora-domain',
-    pronunciation: 'Z AA R AH Z D AH M EY N'
+    pronunciation: 'Z AO R AH Z D AH M EY N'
   },
   {
     id: 'zora-fountain',
-    pronunciation: 'Z AA R AH Z F AW N T AH N'
+    pronunciation: 'Z AO R AH Z F AW N T AH N'
   },
   {
     id: 'ice-cavern',
@@ -117,7 +118,7 @@ export default [
   },
   {
     id: 'goron-city',
-    pronunciation: 'G AA R OW N S IH T IY'
+    pronunciation: 'G AA R AA N S IH T IY'
   },
   {
     id: 'dodongo-cavern',
